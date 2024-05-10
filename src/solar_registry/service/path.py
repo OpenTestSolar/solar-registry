@@ -1,20 +1,22 @@
 from pathlib import Path
 
-from .testtool import get_testtool
 from ..model.test_tool import TestTool
 
 
-def generate_metafile_path(
-    tool_name: str, workdir: str | None = None, testtool: TestTool | None = None
-) -> Path:
-    if not testtool:
-        testtool = get_testtool(tool_name=tool_name, workdir=workdir)
-
+def generate_metafile_path(testtool: TestTool) -> Path:
     metafile = (
         Path("/tmp/testsolar/generate")
         / testtool.lang
         / testtool.name
         / "metadata.json"
+    )
+    metafile.parent.mkdir(exist_ok=True, parents=True)
+    return metafile
+
+
+def generate_merged_metafile_path(testtool: TestTool) -> Path:
+    metafile = (
+        Path("/tmp/testsolar/merged") / testtool.lang / testtool.name / "metadata.json"
     )
     metafile.parent.mkdir(exist_ok=True, parents=True)
     return metafile

@@ -3,41 +3,29 @@ from pathlib import Path
 
 from ..model.test_tool import (
     TestTool,
-    TestToolMetadata,
     TestToolTarget,
     OsType,
     ArchType,
+    TestToolMetadata,
 )
-from ..service.path import generate_metafile_path
-from ..service.testtool import get_testtool
 from ..util.file import download_file_to
 
 
 class Generator:
-    def __init__(self, tool_name: str, workdir: str | None):
-        self.tool_name = tool_name
-        self.workdir = workdir
+    def __init__(self, testtool: TestTool):
+        self.testtool = testtool
 
-    def generate_meta_file(self) -> None:
+    def generate_meta_data(self) -> TestToolMetadata:
         """
-        生成元数据文件，包含工具信息和最新的版本信息
-
-        生成的文件位于 /tmp/testsolar/generate/{tool_lang}/{tool_name}/metadata.json
+        生成测试工具元数据，包含工具信息和最新的版本信息
         """
-        testtool = get_testtool(self.tool_name, self.workdir)
-
-        sha256 = self.compute_asset_sha256(testtool)
+        sha256 = self.compute_asset_sha256(self.testtool)
 
         metadata = TestToolMetadata(
-            meta=testtool, target=self.generate_targets(testtool, sha256)
+            meta=self.testtool, target=self.generate_targets(self.testtool, sha256)
         )
 
-        metafile = generate_metafile_path(
-            tool_name=self.tool_name, workdir=self.workdir, testtool=testtool
-        )
-
-        with open(metafile, "w") as m:
-            m.write(metadata.model_dump_json(by_alias=True, indent=2))
+        return metadata
 
     def generate_targets(self, testtool: TestTool, sha256: str) -> list[TestToolTarget]:
         re: list[TestToolTarget] = []
