@@ -56,5 +56,15 @@ class TestToolMetadata(BaseModel):
 
     包含元数据信息和target信息
     """
+
     meta: TestTool
     target: list[TestToolTarget]
+
+
+class StableIndexMetaData(BaseModel):
+    """
+    稳定版本索引文件
+    """
+
+    meta_version: str = Field("1", alias="metaVersion")
+    tools: list[TestTool]
