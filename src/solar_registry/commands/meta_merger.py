@@ -7,15 +7,15 @@ from requests import HTTPError
 from ..model.test_tool import (
     StableIndexMetaData,
     MetaDataHistory,
+    TestTool,
 )
 from ..service.generator import Generator
-from ..service.testtool import get_testtool
 from ..util.file import download_file_to
 
 
 class MetaMerger:
-    def __init__(self, tool_name: str, workdir: str | None):
-        self.testtool = get_testtool(tool_name, workdir)
+    def __init__(self, testtool: TestTool):
+        self.testtool = testtool
 
         gen = Generator(self.testtool)
         self.metadata = gen.generate_meta_data()
@@ -123,7 +123,9 @@ class MetaMerger:
         else:
             history.versions.append(self.metadata)
 
-        logger.info(f"Merge meta history result: {history}")
+        logger.info(
+            f"Merge meta history result: {history.model_dump_json(by_alias=True, indent=2)}"
+        )
 
         return history
 

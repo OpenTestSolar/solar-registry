@@ -1,26 +1,19 @@
-import shutil
+import tempfile
 from pathlib import Path
 
-import pytest
-
 from solar_registry.commands.meta_merger import MetaMerger
+from solar_registry.service.testtool import get_testtool
 
 
-@pytest.fixture
-def clean_generated_files():
-    try:
-        yield
-    finally:
-        shutil.rmtree("/tmp/testsolar/generate/")
+def test_merge_meta_file():
+    with tempfile.TemporaryDirectory() as tmpdir:
+        workdir = str(Path(__file__).parent.joinpath("testdata").resolve())
+        testtool = get_testtool(tool_name="pytest", workdir=workdir)
+        gen = MetaMerger(testtool)
+        gen.merge_index_and_history(Path(tmpdir))
 
+        index_file = Path(tmpdir) / "testtools/stable.index.json"
+        meta_file = Path(tmpdir) / "testtools/python/pytest/metadata.json"
 
-def test_merge_meta_file(clean_generated_files):
-    workdir = str(Path(__file__).parent.joinpath("testdata").resolve())
-    gen = MetaMerger(tool_name="pytest", workdir=workdir)
-    gen.merge_index_and_history(Path("/tmp/testsolar/generate/"))
-
-    index_file = Path("/tmp/testsolar/generate/testtools/stable.index.json")
-    meta_file = Path("/tmp/testsolar/generate/testtools/python/pytest/metadata.json")
-
-    assert index_file.exists()
-    assert meta_file.exists()
+        assert index_file.exists()
+        assert meta_file.exists()
