@@ -1,6 +1,6 @@
 import hashlib
 from pathlib import Path
-
+from loguru import logger
 from ..model.test_tool import (
     TestTool,
     TestToolTarget,
@@ -19,11 +19,14 @@ class Generator:
         """
         生成测试工具元数据，包含工具信息和最新的版本信息
         """
+        logger.info(f"Generating meta data for {self.testtool.model_dump_json(by_alias=True, indent=2)}")
         sha256 = self.compute_asset_sha256(self.testtool)
 
         metadata = TestToolMetadata(
             meta=self.testtool, target=self.generate_targets(self.testtool, sha256)
         )
+
+        logger.info(f"Generated metadata: {metadata.model_dump_json(indent=2, by_alias=True)}")
 
         return metadata
 
@@ -48,10 +51,10 @@ class Generator:
     def compute_asset_sha256(self, testtool: TestTool) -> str:
         # 读取本次发布的产物信息，并计算sha256值
         output_file = (
-            Path("/tmp/testsolar/generate")
-            / testtool.lang
-            / testtool.name
-            / "output.tar.gz"
+                Path("/tmp/testsolar/generate")
+                / testtool.lang
+                / testtool.name
+                / "output.tar.gz"
         )
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
@@ -65,4 +68,8 @@ class Generator:
                     break
                 sha256_hash.update(data)
 
-        return sha256_hash.hexdigest()
+        sha256 = sha256_hash.hexdigest()
+
+        logger.info(f"sha256: {sha256}")
+
+        return sha256

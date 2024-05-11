@@ -2,6 +2,7 @@ import tempfile
 from pathlib import Path
 
 from requests import HTTPError
+from loguru import logger
 
 from .generator import Generator
 from ..model.test_tool import (
@@ -28,17 +29,21 @@ class MetaMerger:
         new_index = self._download_and_merge_stable_index()
         new_history = self._download_and_merge_meta_history()
 
-        with open(
-            Path(output_dir) / "testtools" / "stable.index.json", "w", encoding="utf-8"
-        ) as f:
+        index_file = Path(output_dir) / "testtools" / "stable.index.json"
+        index_file.parent.mkdir(exist_ok=True, parents=True)
+        with open(index_file, "w", encoding="utf-8") as f:
             f.write(new_index.model_dump_json(by_alias=True, indent=2))
 
-        with open(
+        meta_file = (
             Path(output_dir)
             / "testtools"
             / self.testtool.lang
             / self.testtool.name
-            / "metadata.json",
+            / "metadata.json"
+        )
+        meta_file.parent.mkdir(exist_ok=True, parents=True)
+        with open(
+            meta_file,
             "w",
             encoding="utf-8",
         ) as f:
@@ -86,25 +91,29 @@ class MetaMerger:
                     raise
 
     def _create_new_stable_index(self) -> StableIndexMetaData:
+        logger.info("Creating stable index...")
         meta = StableIndexMetaData(tools=[self.testtool])
 
         return meta
 
     def _merge_stable_index(self, stable_index: Path) -> StableIndexMetaData:
+        logger.info(f"Merging {stable_index.name}")
         with open(stable_index, "r") as f:
-            meta = StableIndexMetaData.model_validate_json(f.read())
+            stable_result = StableIndexMetaData.model_validate_json(f.read())
 
-            if meta.tools:
-                for index, tool in enumerate(meta.tools):
+            if stable_result.tools:
+                for index, tool in enumerate(stable_result.tools):
                     if tool.name == self.testtool.name:
-                        meta.tools[index] = tool
+                        stable_result.tools[index] = tool
                         break
                 else:
-                    meta.tools.append(self.testtool)
+                    stable_result.tools.append(self.testtool)
 
-            return meta
+            logger.info(f"Merge stable index: {stable_result}")
+            return stable_result
 
     def _merge_meta_history(self, history: MetaDataHistory) -> MetaDataHistory:
+        logger.info("Merging meta history...")
         if not history.versions:
             history.versions = []
 
@@ -114,9 +123,12 @@ class MetaMerger:
         else:
             history.versions.append(self.metadata)
 
+        logger.info(f"Merge meta history result: {history}")
+
         return history
 
     def _create_new_metadata_history(self) -> MetaDataHistory:
         # 读取本地生成好的metadata文件
+        logger.info("Creating meta history...")
         history = MetaDataHistory(versions=[self.metadata])
         return history
