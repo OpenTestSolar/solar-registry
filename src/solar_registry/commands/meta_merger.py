@@ -1,14 +1,14 @@
 import tempfile
 from pathlib import Path
 
-from requests import HTTPError
 from loguru import logger
+from requests import HTTPError
 
-from .generator import Generator
 from ..model.test_tool import (
     StableIndexMetaData,
     MetaDataHistory,
 )
+from ..service.generator import Generator
 from ..service.testtool import get_testtool
 from ..util.file import download_file_to
 
@@ -20,7 +20,7 @@ class MetaMerger:
         gen = Generator(self.testtool)
         self.metadata = gen.generate_meta_data()
 
-    def merge_index_and_history(self, output_dir: Path):
+    def merge_index_and_history(self, output_dir: Path) -> None:
         """
         合并新的索引文件和版本文件
         :param output_dir:  registry目录
