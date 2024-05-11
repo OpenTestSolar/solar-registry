@@ -1,31 +1,47 @@
+from pathlib import Path
+
 import typer
 
-from .commands.generator import Generator
+from typing import Optional
+from typing_extensions import Annotated
+
+from .commands.meta_merger import MetaMerger
+from .service.pr_generator import PullRequestGenerator
+from .service.testtool import get_testtool
 
 app = typer.Typer()
 
 
 @app.command()
-def generate(tool_name: str, working_dir: str | None = None):
+def merge(tool_name: str, output: str, working_dir: Optional[str] = None) -> None:
     """
-    生成工具元数据文件，并检测对应发布包地址，生成sha256值
+    合并工具版本元数据
 
     :param tool_name: 工具名称
+    :param output: registry仓库本地目录
     :param working_dir: 可选工作目录
     """
-    gen = Generator(tool_name, working_dir)
-    gen.generate_meta_file()
+    testtool = get_testtool(tool_name, working_dir)
+    merger = MetaMerger(testtool)
+    merger.merge_index_and_history(Path(output))
 
 
 @app.command()
-def merge_index(stable_file: str):
-    pass
+def pull_request(
+    tool_name: Annotated[str, typer.Argument(help="工具名称")],
+    working_dir: Annotated[Optional[str], typer.Argument(help="可选工作目录")] = None,
+) -> None:
+    """
+    合并元数据之后，向项目提PR进行合并操作
+    """
+    testtool = get_testtool(tool_name, working_dir)
+    pr_gen = PullRequestGenerator(testtool)
+    pr_gen.merge_and_create_pull_request()
 
 
-@app.command()
-def merge_meta(stable_file: str):
-    pass
+def cli_entry() -> None:
+    app()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app()

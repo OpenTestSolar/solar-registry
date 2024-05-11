@@ -1,3 +1,9 @@
+"""
+测试工具模型定义
+
+这里面的模型都是对外体现的
+"""
+
 from pydantic import BaseModel, Field
 
 from typing import Literal
@@ -18,6 +24,10 @@ class ParamDef(BaseModel):
 
 
 class TestTool(BaseModel):
+    """
+    测试工具模型定义
+    """
+
     schema_version: float = Field(alias="schemaVersion")
     name: str
     description: str
@@ -44,10 +54,23 @@ class ArchType(str, Enum):
 
 
 class TestToolTarget(BaseModel):
+    """
+    发布包模型定义
+    """
+
     os: OsType
     arch: ArchType
     download_url: str = Field(alias="downloadUrl")
     sha256: str
+
+
+class StableIndexMetaData(BaseModel):
+    """
+    稳定版本索引文件
+    """
+
+    meta_version: str = Field("1", alias="metaVersion")
+    tools: list[TestTool]
 
 
 class TestToolMetadata(BaseModel):
@@ -56,5 +79,15 @@ class TestToolMetadata(BaseModel):
 
     包含元数据信息和target信息
     """
+
     meta: TestTool
     target: list[TestToolTarget]
+
+
+class MetaDataHistory(BaseModel):
+    """
+    工具元数据版本文件
+    """
+
+    meta_version: str = Field("1", alias="metaVersion")
+    versions: list[TestToolMetadata]

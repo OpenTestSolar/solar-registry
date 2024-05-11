@@ -1,19 +1,24 @@
 [project]
 name = "solar-registry"
-version = "0.1.0"
+version = "0.2.0"
 description = "Generate and merge meta data for testsolar test tools"
 authors = [
-    {name = "asiazhang", email = "asiazhang2002@gmail.com"},
+    { name = "asiazhang", email = "asiazhang2002@gmail.com" },
 ]
 dependencies = [
     "requests>=2.31.0",
     "pydantic>=2.7.1",
     "typer>=0.12.3",
     "pyyaml>=6.0.1",
+    "retry>=0.9.2",
+    "loguru>=0.7.2",
 ]
 requires-python = ">=3.11"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
+
+[project.scripts]
+solar-registry = "solar_registry.cli:cli_entry"
 
 [build-system]
 requires = ["pdm-backend"]
@@ -26,4 +31,8 @@ distribution = true
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=8.2.0",
+    "mypy>=1.10.0",
+    "types-requests>=2.31.0.20240406",
+    "types-retry>=0.9.9.4",
+    "types-PyYAML>=6.0.12.20240311",
 ]
