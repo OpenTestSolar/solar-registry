@@ -21,14 +21,18 @@ class Generator:
         """
         生成测试工具元数据，包含工具信息和最新的版本信息
         """
-        logger.info(f"Generating meta data for {self.testtool.model_dump_json(by_alias=True, indent=2)}")
+        logger.info(
+            f"Generating meta data for {self.testtool.model_dump_json(by_alias=True, indent=2)}"
+        )
         sha256 = self.compute_asset_sha256(self.testtool)
 
         metadata = TestToolMetadata(
             meta=self.testtool, target=self.generate_targets(self.testtool, sha256)
         )
 
-        logger.info(f"Generated metadata: {metadata.model_dump_json(indent=2, by_alias=True)}")
+        logger.info(
+            f"Generated metadata: {metadata.model_dump_json(indent=2, by_alias=True)}"
+        )
 
         return metadata
 
@@ -53,10 +57,10 @@ class Generator:
     def compute_asset_sha256(self, testtool: TestTool) -> str:
         # 读取本次发布的产物信息，并计算sha256值
         output_file = (
-                Path("/tmp/testsolar/generate")
-                / testtool.lang
-                / testtool.name
-                / "output.tar.gz"
+            Path("/tmp/testsolar/generate")
+            / testtool.lang
+            / testtool.name
+            / "output.tar.gz"
         )
         output_file.parent.mkdir(parents=True, exist_ok=True)
 
