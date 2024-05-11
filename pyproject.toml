@@ -1,9 +1,9 @@
 [project]
 name = "solar-registry"
-version = "0.1.0"
+version = "0.2.0"
 description = "Generate and merge meta data for testsolar test tools"
 authors = [
-    {name = "asiazhang", email = "asiazhang2002@gmail.com"},
+    { name = "asiazhang", email = "asiazhang2002@gmail.com" },
 ]
 dependencies = [
     "requests>=2.31.0",
@@ -15,7 +15,10 @@ dependencies = [
 ]
 requires-python = ">=3.11"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
+
+[project.scripts]
+solar-registry = "solar_registry.cli:cli_entry"
 
 [build-system]
 requires = ["pdm-backend"]
