@@ -4,6 +4,7 @@
 - 根据测试工具的`testtool.yaml`生成对应的元数据信息
 - 读取最新的元数据文件并合并
 - 下载指定的发布包，并计算sha256值
+- 自动提交PR到registry仓库，发布的新版本元数据
 
 
 ## 生成元数据
@@ -14,23 +15,8 @@
 - 包含最新工具Target
 
 ```shell
-solar-registry generate pytest --output ./output/pytest.metadata.json
+solar-registry merge pytest ./output/testsolar
 ```
-
-## 合并stable索引
-
-```shell
-solar-registry merge-index https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testools/stable.index.json \
-  --output /tmp/xadga/testools/stable.index.json
-```
-
-## 合并工具元数据
-
-```shell
-solar-registry merge-meta https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testools/python/pytest/metadata.json \ 
-  --output /tmp/xadga/testools/python/pytest/metadata.json
-```
-
 
 ## 推送合并后文件到registry仓库
 
@@ -38,5 +24,5 @@ solar-registry merge-meta https://raw.githubusercontent.com/OpenTestSolar/testto
 - 使用gh命令行创建PR
 
 ```shell
-solar-registry publish pytest /tmp/xadga
+solar-registry pull-request pytest
 ```
