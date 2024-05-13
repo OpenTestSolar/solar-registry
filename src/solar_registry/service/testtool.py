@@ -1,7 +1,8 @@
 import os
 from pathlib import Path
-from loguru import logger
+
 import yaml
+from loguru import logger
 
 from ..model.test_tool import TestTool
 

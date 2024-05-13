@@ -29,13 +29,17 @@ class TestTool(BaseModel):
     """
 
     schema_version: float = Field(alias="schemaVersion")
-    name: str
-    description: str
-    version: str
+
+    # 必须是小写英文字母
+    name: str = Field(pattern=r"^[a-z]+$")
+    description: str = Field(min_length=10, max_length=1000)
+
+    # x.x.x 格式版本
+    version: str = Field(pattern=r"^\d+\.\d+\.\d+$")
     lang: Literal["python", "golang", "javascript", "java"]
     base_image: str = Field(alias="defaultBaseImage")
     lang_type: Literal["COMPILED", "INTERPRETED"] = Field(alias="langType")
-    param_defs: list[ParamDef] = Field(alias="parameterDefs")
+    param_defs: list[ParamDef] | None = Field(None, alias="parameterDefs")
     home_page: str = Field(alias="homePage")
     version_file: str = Field(alias="versionFile")
     index_file: str = Field(alias="indexFile")
