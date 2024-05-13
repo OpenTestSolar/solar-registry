@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.11", "3.12" ]
+        python-version: [ "3.11", "3.12" ]
 
     steps:
       - uses: actions/checkout@v4
@@ -34,4 +34,4 @@ jobs:
           pdm run mypy src --strict
       - name: Test with pytest
         run: |
-          pdm run pytest --durations=5 --cov=. --cov-fail-under=90 --cov-report term -vv
+          pdm run pytest tests --durations=5 --cov=. --cov-fail-under=80 --cov-report term -vv

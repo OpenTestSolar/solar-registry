@@ -13,7 +13,7 @@ class PullRequestGenerator:
     def __init__(self, testtool: TestTool):
         self.testtool = testtool
 
-    def merge_and_create_pull_request(self):
+    def merge_and_create_pull_request(self) -> None:
         if "GH_TOKEN" not in os.environ:
             raise ValueError("Missing GH_TOKEN environment variable")
 

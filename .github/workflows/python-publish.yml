@@ -22,15 +22,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Set up Python
-      uses: actions/setup-python@v4
+    - name: Set up PDM
+      uses: pdm-project/setup-pdm@v4
       with:
-        python-version: '3.x'
+        python-version: '3.11'
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade pip
-        curl -sSL https://pdm-project.org/install-pdm.py | python3 -
-        pdm install -d
+        pdm sync -d -G dev
     - name: Build package
       run: pdm build
     - name: Publish package
