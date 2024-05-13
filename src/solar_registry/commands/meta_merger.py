@@ -32,7 +32,9 @@ class MetaMerger:
         index_file = Path(output_dir) / "testtools" / "stable.index.json"
         index_file.parent.mkdir(exist_ok=True, parents=True)
         with open(index_file, "w", encoding="utf-8") as f:
-            f.write(new_index.model_dump_json(by_alias=True, indent=2))
+            f.write(
+                new_index.model_dump_json(by_alias=True, indent=2, exclude_none=True)
+            )
 
         meta_file = (
             Path(output_dir)
@@ -47,7 +49,9 @@ class MetaMerger:
             "w",
             encoding="utf-8",
         ) as f:
-            f.write(new_history.model_dump_json(by_alias=True, indent=2))
+            f.write(
+                new_history.model_dump_json(by_alias=True, indent=2, exclude_none=True)
+            )
 
     def _download_and_merge_stable_index(self) -> StableIndexMetaData:
         """
@@ -124,7 +128,7 @@ class MetaMerger:
             history.versions.append(self.metadata)
 
         logger.info(
-            f"Merge meta history result: {history.model_dump_json(by_alias=True, indent=2)}"
+            f"Merge meta history result: {history.model_dump_json(by_alias=True, indent=2, exclude_none=True)}"
         )
 
         return history
