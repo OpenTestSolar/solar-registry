@@ -1,9 +1,9 @@
 from pathlib import Path
 
+import pytest
+
 from solar_registry.service.pr_generator import PullRequestGenerator
 from solar_registry.service.testtool import get_testtool
-
-import pytest
 
 
 @pytest.mark.skip(reason="跳过真正合并github文件流程")

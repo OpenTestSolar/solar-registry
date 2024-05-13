@@ -1,10 +1,9 @@
 from pathlib import Path
 
-from solar_registry.service.testtool import get_testtool
-
+import pytest
 from pydantic import ValidationError
 
-import pytest
+from solar_registry.service.testtool import get_testtool
 
 
 def test_validate_correct_pytest_tool():

@@ -4,11 +4,10 @@
 这里面的模型都是对外体现的
 """
 
-from pydantic import BaseModel, Field
-
+from enum import Enum
 from typing import Literal
 
-from enum import Enum
+from pydantic import BaseModel, Field
 
 
 class ParamChoice(BaseModel):
