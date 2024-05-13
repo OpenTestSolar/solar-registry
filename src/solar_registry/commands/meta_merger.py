@@ -105,13 +105,15 @@ class MetaMerger:
         with open(stable_index, "r") as f:
             stable_result = StableIndexMetaData.model_validate_json(f.read())
 
-            if stable_result.tools:
-                for index, tool in enumerate(stable_result.tools):
-                    if tool.name == self.testtool.name:
-                        stable_result.tools[index] = tool
-                        break
-                else:
-                    stable_result.tools.append(self.testtool)
+            if not stable_result.tools:
+                stable_result.tools = []
+
+            for index, tool in enumerate(stable_result.tools):
+                if tool.name == self.testtool.name:
+                    stable_result.tools[index] = tool
+                    break
+            else:
+                stable_result.tools.append(self.testtool)
 
             logger.info(f"Merge stable index: {stable_result}")
             return stable_result
