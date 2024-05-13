@@ -1,6 +1,6 @@
 [project]
 name = "solar-registry"
-version = "0.2.0"
+version = "0.2.1"
 description = "Generate and merge meta data for testsolar test tools"
 authors = [
     { name = "asiazhang", email = "asiazhang2002@gmail.com" },
@@ -16,6 +16,16 @@ dependencies = [
 requires-python = ">=3.11"
 readme = "README.md"
 license = { text = "MIT" }
+
+urls = { repository = "https://github.com/OpenTestSolar/solar-registry" }
+classifiers = [
+    'Development Status :: 4 - Beta',
+    'Intended Audience :: Developers',
+    'Programming Language :: Python',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.11',
+    'Programming Language :: Python :: 3.12',
+]
 
 [project.scripts]
 solar-registry = "solar_registry.cli:cli_entry"
