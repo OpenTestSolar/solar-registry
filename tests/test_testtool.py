@@ -12,7 +12,7 @@ def test_validate_correct_pytest_tool():
     tool = get_testtool("pytest", workdir)
 
     assert tool.name == "pytest"
-    assert tool.version == "0.1.3"
+    assert tool.version == "0.1.6"
 
 
 def test_validate_name_error():
