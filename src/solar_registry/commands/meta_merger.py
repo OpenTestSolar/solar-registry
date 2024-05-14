@@ -110,7 +110,7 @@ class MetaMerger:
 
             for index, tool in enumerate(stable_result.tools):
                 if tool.name == self.testtool.name:
-                    stable_result.tools[index] = tool
+                    stable_result.tools[index] = self.testtool
                     break
             else:
                 stable_result.tools.append(self.testtool)
