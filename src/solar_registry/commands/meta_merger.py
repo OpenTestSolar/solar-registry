@@ -126,6 +126,7 @@ class MetaMerger:
         for index, version in enumerate(history.versions):
             if version.meta.version == self.metadata.meta.version:
                 history.versions[index] = self.metadata
+                break
         else:
             history.versions.append(self.metadata)
 
