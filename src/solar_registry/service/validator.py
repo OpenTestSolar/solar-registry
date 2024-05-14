@@ -38,6 +38,12 @@ class ToolValidator:
                     with open(metafile) as f:
                         re = MetaDataHistory.model_validate_json(f.read())
                         if re.versions:
+                            # 检查versions中是否有重复版本
+                            all_versions = set(x.meta.version for x in re.versions)
+
+                            if len(all_versions) != len(re.versions):
+                                raise RuntimeError(f"去重之后的版本数目 [{len(all_versions)}] != 原始版本数目 [{len(re.versions)}]")
+
                             logger.info(
                                 f"✅ Validated tool [{re.versions[0].meta.name}] OK."
                             )

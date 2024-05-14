@@ -3,11 +3,11 @@ name: pytest
 lang: python
 langType: "INTERPRETED"
 description: Pytest测试工具
-version: '0.1.3'
+version: '0.1.6'
 defaultBaseImage: python:3.10 # 用户在 TestContainer 配置中未指定 baseImage 时的默认镜像
 scaffoldRepo: https://github.com/OpenTestSolar/testtool-scaffold-python-pytest/archive/refs/tags/0.1.0.tar.gz
-indexFile: https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/stable.index.json
-versionFile: https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/python/pytest/metadata.json
+indexFile: https://opentestsolar.github.io/testtool-registry/testtools/stable.index.json
+versionFile: https://opentestsolar.github.io/testtool-registry/testtools/python/pytest/metadata.json
 homePage: https://github.com/OpenTestSolar/testtool-python-pytest
 parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
   - name: parseMode
