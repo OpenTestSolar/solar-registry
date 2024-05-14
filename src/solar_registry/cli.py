@@ -6,6 +6,7 @@ from loguru import logger
 from typing_extensions import Annotated
 
 from .commands.meta_merger import MetaMerger
+from .service.cos_uploader import CosUploader
 from .service.pr_generator import PullRequestGenerator
 from .service.testtool import get_testtool
 from .service.validator import ToolValidator
@@ -29,8 +30,8 @@ def merge(tool_name: str, output: str, working_dir: Optional[str] = None) -> Non
 
 @app.command()
 def pull_request(
-    tool_name: Annotated[str, typer.Argument(help="工具名称")],
-    working_dir: Annotated[Optional[str], typer.Argument(help="可选工作目录")] = None,
+        tool_name: Annotated[str, typer.Argument(help="工具名称")],
+        working_dir: Annotated[Optional[str], typer.Argument(help="可选工作目录")] = None,
 ) -> None:
     """
     合并元数据之后，向项目提PR进行合并操作
@@ -61,6 +62,15 @@ def validate_json(working_dir: Optional[str] = None) -> None:
     """
     validator = ToolValidator(working_dir)
     validator.validate()
+
+
+def upload_to_cos(working_dir: Optional[str] = None) -> None:
+    """
+    上传元数据文件到COS上
+    :param working_dir: 可选工作目录
+    """
+    uploader = CosUploader(working_dir)
+    uploader.upload_meta_files_to_cos()
 
 
 def cli_entry() -> None:
