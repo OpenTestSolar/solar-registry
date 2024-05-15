@@ -57,7 +57,7 @@ class CosSyncService:
                     DestFilePath=str(output_path)
                 )
 
-                logger.info(f"Compare MD5...")
+                logger.info("Compare MD5...")
                 if calculate_md5(full_path) == calculate_md5(output_path):
                     logger.info(
                         f"relative_file {relative_file} not changed, skip upload"
