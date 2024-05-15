@@ -23,6 +23,9 @@ class ParamDef(BaseModel):
 
 
 class TestTool(BaseModel):
+
+    __test__ = False
+
     """
     测试工具模型定义
     """
@@ -57,6 +60,9 @@ class ArchType(str, Enum):
 
 
 class TestToolTarget(BaseModel):
+
+    __test__ = False
+
     """
     发布包模型定义
     """
@@ -77,6 +83,9 @@ class StableIndexMetaData(BaseModel):
 
 
 class TestToolMetadata(BaseModel):
+
+    __test__ = False
+
     """
     通过solar-registry生成的最新版本发布元数据
 

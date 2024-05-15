@@ -1,9 +1,12 @@
 from pathlib import Path
 
+import pytest
+
 from solar_registry.service.cos_sync import CosSyncService
 
 
-def test_sync_meta_data():
+@pytest.mark.skip(reason="Can only run in local")
+def test_sync_meta_data_to_cos():
     workdir = str(
         (Path(__file__).parent / "testdata" / "stable_index_file_check").resolve()
     )
