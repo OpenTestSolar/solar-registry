@@ -6,7 +6,7 @@ from loguru import logger
 
 from pathlib import Path
 
-from qcloud_cos import CosS3Client, CosConfig
+from qcloud_cos import CosS3Client, CosConfig  # type: ignore[import-untyped]
 
 
 class CosSyncService:
