@@ -39,7 +39,7 @@ class CosSyncService:
                 relative_path = os.path.relpath(full_path, self.workdir)
                 logger.info(f"Relative path = {relative_path}")
 
-                # 检查这个文件在COS上是否存在，并且文件是否相同
+                # 上传本地文件，相同文件跳过不上传
                 self.upload_relative_file(relative_path)
 
     def upload_relative_file(self, relative_file: str) -> None:
