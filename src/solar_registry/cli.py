@@ -6,6 +6,7 @@ from loguru import logger
 from typing_extensions import Annotated
 
 from .commands.meta_merger import MetaMerger
+from .service.cos_sync import CosSyncService
 from .service.pr_generator import PullRequestGenerator
 from .service.testtool import get_testtool
 from .service.validator import ToolValidator
@@ -61,6 +62,16 @@ def validate_json(working_dir: Optional[str] = None) -> None:
     """
     validator = ToolValidator(working_dir)
     validator.validate()
+
+
+def sync_cos(working_dir: Optional[str] = None) -> None:
+    """
+    同步数据到COS上
+
+    :param working_dir: 可选工作目录
+    """
+    sync = CosSyncService(working_dir)
+    sync.sync_meta_data()
 
 
 def cli_entry() -> None:
