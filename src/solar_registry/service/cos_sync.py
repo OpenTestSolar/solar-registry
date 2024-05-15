@@ -54,13 +54,13 @@ class CosSyncService:
                 self.cos_client.download_file(
                     Bucket=self.cos_bucket,
                     Key=relative_file,
-                    DestFilePath=str(output_path)
+                    DestFilePath=str(output_path),
                 )
 
                 logger.info("Compare MD5...")
                 if calculate_md5(full_path) == calculate_md5(output_path):
                     logger.info(
-                        f"relative_file {relative_file} not changed, skip upload"
+                        f"✨ relative_file {relative_file} not changed, skip upload"
                     )
                 else:
                     response = self.cos_client.upload_file(
@@ -68,11 +68,11 @@ class CosSyncService:
                         Key=relative_file,
                         LocalFilePath=str(full_path),
                         EnableMD5=True,
-                        ACL='public-read',  # 必须设置为公有读取
+                        ACL="public-read",  # 必须设置为公有读取
                         progress_callback=None,
                     )
                     logger.info(
-                        f"relative_file {relative_file} uploaded, ETag: {response['ETag']}"
+                        f"✅ relative_file {relative_file} uploaded, ETag: {response['ETag']}"
                     )
 
         else:
@@ -82,7 +82,9 @@ class CosSyncService:
                 response = self.cos_client.put_object(
                     Bucket=self.cos_bucket, Key=relative_file, Body=fp
                 )
-                logger.info(f'File {relative_file} uploaded, ETag: {response["ETag"]}!')
+                logger.info(
+                    f'✅ File {relative_file} uploaded, ETag: {response["ETag"]}!'
+                )
 
 
 def calculate_md5(file_path: Path) -> str:

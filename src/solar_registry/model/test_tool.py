@@ -23,7 +23,6 @@ class ParamDef(BaseModel):
 
 
 class TestTool(BaseModel):
-
     __test__ = False
 
     """
@@ -60,7 +59,6 @@ class ArchType(str, Enum):
 
 
 class TestToolTarget(BaseModel):
-
     __test__ = False
 
     """
@@ -83,7 +81,6 @@ class StableIndexMetaData(BaseModel):
 
 
 class TestToolMetadata(BaseModel):
-
     __test__ = False
 
     """

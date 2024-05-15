@@ -30,8 +30,8 @@ def merge(tool_name: str, output: str, working_dir: Optional[str] = None) -> Non
 
 @app.command()
 def pull_request(
-        tool_name: Annotated[str, typer.Argument(help="工具名称")],
-        working_dir: Annotated[Optional[str], typer.Argument(help="可选工作目录")] = None,
+    tool_name: Annotated[str, typer.Argument(help="工具名称")],
+    working_dir: Annotated[Optional[str], typer.Argument(help="可选工作目录")] = None,
 ) -> None:
     """
     合并元数据之后，向项目提PR进行合并操作
