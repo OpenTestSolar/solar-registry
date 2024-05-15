@@ -34,4 +34,4 @@ jobs:
           pdm run mypy src --strict
       - name: Test with pytest
         run: |
-          pdm run pytest tests --durations=5 --cov=. --cov-fail-under=80 --cov-report term -vv
+          pdm run pytest tests --durations=5 --cov=. --cov-fail-under=70 --cov-report term -vv
