@@ -65,14 +65,15 @@ def validate_json(working_dir: Optional[str] = None) -> None:
 
 
 @app.command()
-def sync_cos(working_dir: Optional[str] = None) -> None:
+def sync_cos(working_dir: Optional[str] = None, force: bool = False) -> None:
     """
     同步数据到COS上
 
     :param working_dir: 可选工作目录
+    :param force: 是否强制更新COS上的文件
     """
     sync = CosSyncService(working_dir)
-    sync.sync_meta_data()
+    sync.sync_meta_data(force)
 
 
 def cli_entry() -> None:

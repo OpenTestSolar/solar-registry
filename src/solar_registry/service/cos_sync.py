@@ -31,7 +31,7 @@ class CosSyncService:
             )
         )
 
-    def sync_meta_data(self) -> None:
+    def sync_meta_data(self, force: bool) -> None:
         for dir_path, _, filenames in os.walk(Path(self.workdir) / "testtools"):
             for filename in filenames:
                 full_path = Path(dir_path, filename)
@@ -40,51 +40,58 @@ class CosSyncService:
                 logger.info(f"Relative path = {relative_path}")
 
                 # 上传本地文件，相同文件跳过不上传
-                self.upload_relative_file(relative_path)
+                self.upload_relative_file(relative_path, force)
 
-    def upload_relative_file(self, relative_file: str) -> None:
+    def upload_relative_file(self, relative_file: str, force: bool) -> None:
         full_path = Path(self.workdir, relative_file)
 
-        if self.cos_client.object_exists(Bucket=self.cos_bucket, Key=relative_file):
-            with tempfile.TemporaryDirectory() as temp:
-                output_path = Path(temp) / relative_file
-                output_path.parent.mkdir(parents=True, exist_ok=True)
+        if force:
+            logger.info(f"Overwriting {relative_file}...")
+            self.upload_file_to_cos(
+                relative_file=relative_file, full_path=str(full_path)
+            )
+        else:
+            if self.cos_client.object_exists(Bucket=self.cos_bucket, Key=relative_file):
+                with tempfile.TemporaryDirectory() as temp:
+                    output_path = Path(temp) / relative_file
+                    output_path.parent.mkdir(parents=True, exist_ok=True)
 
-                logger.info(f"Download {relative_file} to {output_path}...")
-                self.cos_client.download_file(
-                    Bucket=self.cos_bucket,
-                    Key=relative_file,
-                    DestFilePath=str(output_path),
-                )
-
-                logger.info("Compare MD5...")
-                if calculate_md5(full_path) == calculate_md5(output_path):
-                    logger.info(
-                        f"✨ relative_file {relative_file} not changed, skip upload"
-                    )
-                else:
-                    response = self.cos_client.upload_file(
+                    logger.info(f"Download {relative_file} to {output_path}...")
+                    self.cos_client.download_file(
                         Bucket=self.cos_bucket,
                         Key=relative_file,
-                        LocalFilePath=str(full_path),
-                        EnableMD5=True,
-                        ACL="public-read",  # 必须设置为公有读取
-                        progress_callback=None,
-                    )
-                    logger.info(
-                        f"✅ relative_file {relative_file} uploaded, ETag: {response['ETag']}"
+                        DestFilePath=str(output_path),
                     )
 
-        else:
-            logger.info(f"File {relative_file} does not exist on cos, start upload...")
-            # 文件不存在直接上传
-            with open(Path(self.workdir, relative_file), "rb") as fp:
-                response = self.cos_client.put_object(
-                    Bucket=self.cos_bucket, Key=relative_file, Body=fp
-                )
+                    logger.info("Compare MD5...")
+                    if calculate_md5(full_path) == calculate_md5(output_path):
+                        logger.info(
+                            f"✨ relative_file {relative_file} not changed, skip upload"
+                        )
+                    else:
+                        self.upload_file_to_cos(
+                            relative_file=relative_file, full_path=str(full_path)
+                        )
+            else:
                 logger.info(
-                    f'✅ File {relative_file} uploaded, ETag: {response["ETag"]}!'
+                    f"File {relative_file} does not exist on cos, start upload..."
                 )
+                self.upload_file_to_cos(
+                    relative_file=relative_file, full_path=str(full_path)
+                )
+
+    def upload_file_to_cos(self, relative_file: str, full_path: str) -> None:
+        response = self.cos_client.upload_file(
+            Bucket=self.cos_bucket,
+            Key=relative_file,
+            LocalFilePath=full_path,
+            EnableMD5=True,
+            ACL="public-read",
+            progress_callback=None,
+        )
+        logger.info(
+            f"✅ relative_file {relative_file} uploaded, ETag: {response['ETag']}"
+        )
 
 
 def calculate_md5(file_path: Path) -> str:
