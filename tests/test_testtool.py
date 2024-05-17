@@ -30,4 +30,4 @@ def test_validate_version_error():
     with pytest.raises(ValidationError) as ve:
         get_testtool("pytest", workdir)
 
-    assert r"String should match pattern '^\d+\.\d+\.\d+$'" in str(ve.value)
+    assert r"String should match pattern '^(\\d+\\.\\d+\\.\\d+|stable)$'" in str(ve.value)
