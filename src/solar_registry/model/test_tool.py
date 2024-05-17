@@ -36,7 +36,7 @@ class TestTool(BaseModel):
     description: str = Field(min_length=10, max_length=1000)
 
     # x.x.x 格式版本
-    version: str = Field(pattern=r"^\d+\.\d+\.\d+$")
+    version: str = Field(pattern=r"^(\d+\.\d+\.\d+|stable)$")
     lang: Literal["python", "golang", "javascript", "java"]
     base_image: str = Field(alias="defaultBaseImage")
     lang_type: Literal["COMPILED", "INTERPRETED"] = Field(alias="langType")
