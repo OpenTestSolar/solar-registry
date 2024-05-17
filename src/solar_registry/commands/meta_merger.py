@@ -8,6 +8,7 @@ from ..model.test_tool import (
     StableIndexMetaData,
     MetaDataHistory,
     TestTool,
+    TestToolMetadata
 )
 from ..service.generator import Generator
 from ..util.file import download_file_to
@@ -37,17 +38,17 @@ class MetaMerger:
             )
 
         meta_file = (
-            Path(output_dir)
-            / "testtools"
-            / self.testtool.lang
-            / self.testtool.name
-            / "metadata.json"
+                Path(output_dir)
+                / "testtools"
+                / self.testtool.lang
+                / self.testtool.name
+                / "metadata.json"
         )
         meta_file.parent.mkdir(exist_ok=True, parents=True)
         with open(
-            meta_file,
-            "w",
-            encoding="utf-8",
+                meta_file,
+                "w",
+                encoding="utf-8",
         ) as f:
             f.write(
                 new_history.model_dump_json(by_alias=True, indent=2, exclude_none=True)
@@ -123,16 +124,27 @@ class MetaMerger:
         if not history.versions:
             history.versions = []
 
-        for index, version in enumerate(history.versions):
-            if version.meta.version == self.metadata.meta.version:
-                history.versions[index] = self.metadata
-                break
-        else:
-            history.versions.append(self.metadata)
+        self._upsert_meta_history(tool_meta=self.metadata, history=history)
+
+        # 在历史记录中增加一个固定的stable版本，方便用户使用
+        stable_version = self.metadata.model_copy(deep=True)
+        stable_version.meta.version = "stable"
+        self._upsert_meta_history(tool_meta=stable_version, history=history)
 
         logger.info(
             f"Merge meta history result: {history.model_dump_json(by_alias=True, indent=2, exclude_none=True)}"
         )
+
+        return history
+
+    @staticmethod
+    def _upsert_meta_history(tool_meta: TestToolMetadata, history: MetaDataHistory) -> MetaDataHistory:
+        for index, version in enumerate(history.versions):
+            if version.meta.version == tool_meta.meta.version:
+                history.versions[index] = tool_meta
+                break
+        else:
+            history.versions.append(tool_meta)
 
         return history
 
