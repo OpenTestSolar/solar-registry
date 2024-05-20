@@ -7,6 +7,7 @@ from loguru import logger
 
 from ..commands.meta_merger import MetaMerger
 from ..model.test_tool import TestTool
+from .testtool import github_asset_gen
 
 
 class PullRequestGenerator:
@@ -37,7 +38,7 @@ class PullRequestGenerator:
                 check=True,
             )
 
-            merger = MetaMerger(self.testtool)
+            merger = MetaMerger(self.testtool, asset_url_gen=github_asset_gen)
             merger.merge_index_and_history(git_dir)
 
             subprocess.run(["git", "add", "."], cwd=git_dir, check=True)

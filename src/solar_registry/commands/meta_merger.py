@@ -1,6 +1,7 @@
 import tempfile
 from pathlib import Path
 
+from typing import Callable
 from loguru import logger
 from requests import HTTPError
 
@@ -8,17 +9,17 @@ from ..model.test_tool import (
     StableIndexMetaData,
     MetaDataHistory,
     TestTool,
-    TestToolMetadata
+    TestToolMetadata,
 )
 from ..service.generator import Generator
 from ..util.file import download_file_to
 
 
 class MetaMerger:
-    def __init__(self, testtool: TestTool):
+    def __init__(self, testtool: TestTool, asset_url_gen: Callable[[TestTool], str]):
         self.testtool = testtool
 
-        gen = Generator(self.testtool)
+        gen = Generator(self.testtool, asset_url_gen)
         self.metadata = gen.generate_meta_data()
 
     def merge_index_and_history(self, output_dir: Path) -> None:
@@ -38,17 +39,17 @@ class MetaMerger:
             )
 
         meta_file = (
-                Path(output_dir)
-                / "testtools"
-                / self.testtool.lang
-                / self.testtool.name
-                / "metadata.json"
+            Path(output_dir)
+            / "testtools"
+            / self.testtool.lang
+            / self.testtool.name
+            / "metadata.json"
         )
         meta_file.parent.mkdir(exist_ok=True, parents=True)
         with open(
-                meta_file,
-                "w",
-                encoding="utf-8",
+            meta_file,
+            "w",
+            encoding="utf-8",
         ) as f:
             f.write(
                 new_history.model_dump_json(by_alias=True, indent=2, exclude_none=True)
@@ -138,7 +139,9 @@ class MetaMerger:
         return history
 
     @staticmethod
-    def _upsert_meta_history(tool_meta: TestToolMetadata, history: MetaDataHistory) -> MetaDataHistory:
+    def _upsert_meta_history(
+        tool_meta: TestToolMetadata, history: MetaDataHistory
+    ) -> MetaDataHistory:
         for index, version in enumerate(history.versions):
             if version.meta.version == tool_meta.meta.version:
                 history.versions[index] = tool_meta
