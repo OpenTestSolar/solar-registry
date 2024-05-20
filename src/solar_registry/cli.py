@@ -8,7 +8,7 @@ from typing_extensions import Annotated
 from .commands.meta_merger import MetaMerger
 from .service.cos_sync import CosSyncService
 from .service.pr_generator import PullRequestGenerator
-from .service.testtool import get_testtool
+from .service.testtool import get_testtool, github_asset_gen
 from .service.validator import ToolValidator
 
 app = typer.Typer()
@@ -24,7 +24,7 @@ def merge(tool_name: str, output: str, working_dir: Optional[str] = None) -> Non
     :param working_dir: 可选工作目录
     """
     testtool = get_testtool(tool_name, working_dir)
-    merger = MetaMerger(testtool)
+    merger = MetaMerger(testtool, asset_url_gen=github_asset_gen)
     merger.merge_index_and_history(Path(output))
 
 

@@ -6,7 +6,7 @@ from pydantic import ValidationError
 from solar_registry.service.testtool import get_testtool
 
 
-def test_validate_correct_pytest_tool():
+def test_validate_correct_pytest_tool() -> None:
     workdir = str((Path(__file__).parent / "testdata").resolve())
 
     tool = get_testtool("pytest", workdir)
@@ -15,7 +15,7 @@ def test_validate_correct_pytest_tool():
     assert tool.version == "0.1.6"
 
 
-def test_validate_name_error():
+def test_validate_name_error() -> None:
     workdir = str((Path(__file__).parent / "testdata" / "error_meta_file").resolve())
 
     with pytest.raises(ValidationError) as ve:
@@ -24,7 +24,7 @@ def test_validate_name_error():
     assert r"String should match pattern '^[a-z]+$'" in str(ve.value)
 
 
-def test_validate_version_error():
+def test_validate_version_error() -> None:
     workdir = str((Path(__file__).parent / "testdata" / "error_version_file").resolve())
 
     with pytest.raises(ValidationError) as ve:

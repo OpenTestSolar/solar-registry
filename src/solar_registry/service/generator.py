@@ -1,5 +1,6 @@
 import hashlib
 from pathlib import Path
+from typing import Callable
 
 from loguru import logger
 
@@ -14,8 +15,9 @@ from ..util.file import download_file_to
 
 
 class Generator:
-    def __init__(self, testtool: TestTool):
+    def __init__(self, testtool: TestTool, asset_url_gen: Callable[[TestTool], str]):
         self.testtool = testtool
+        self.asset_url_gen = asset_url_gen
 
     def generate_meta_data(self) -> TestToolMetadata:
         """
@@ -50,8 +52,15 @@ class Generator:
                 )
         return re
 
-    @staticmethod
-    def generate_asset_url(testtool: TestTool) -> str:
+    def generate_asset_url(self, testtool: TestTool) -> str:
+        """
+        指定产物的URL
+
+        不同场景下，可能产物的URL需要定制，因此这个需要能动态配置
+        """
+
+        return self.asset_url_gen(testtool)
+
         return f"https://github.com/OpenTestSolar/testtool-{testtool.lang}-{testtool.name}/archive/refs/tags/{testtool.version}.tar.gz"
 
     def compute_asset_sha256(self, testtool: TestTool) -> str:

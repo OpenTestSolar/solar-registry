@@ -14,3 +14,7 @@ def get_testtool(tool_name: str, workdir: str | None) -> TestTool:
         testtool = TestTool.model_validate(yaml.safe_load(f))
         logger.debug(f"loaded testtool: {testtool.model_dump_json(indent=2)}")
         return testtool
+
+
+def github_asset_gen(testtool: TestTool) -> str:
+    return f"https://github.com/OpenTestSolar/testtool-{testtool.lang}-{testtool.name}/archive/refs/tags/{testtool.version}.tar.gz"
