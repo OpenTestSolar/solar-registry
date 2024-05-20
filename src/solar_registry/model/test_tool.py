@@ -22,6 +22,11 @@ class ParamDef(BaseModel):
     choices: list[ParamChoice] | None = None
 
 
+class Entry(BaseModel):
+    load: str
+    run: str
+
+
 class TestTool(BaseModel):
     __test__ = False
 
@@ -45,6 +50,7 @@ class TestTool(BaseModel):
     version_file: str = Field(alias="versionFile")
     index_file: str = Field(alias="indexFile")
     scaffold_repo: str = Field(alias="scaffoldRepo")
+    entry: Entry | None = Field(None, alias="entry")
 
 
 class OsType(str, Enum):
