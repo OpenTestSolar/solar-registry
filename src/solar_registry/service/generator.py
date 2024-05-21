@@ -61,8 +61,6 @@ class Generator:
 
         return self.asset_url_gen(testtool)
 
-        return f"https://github.com/OpenTestSolar/testtool-{testtool.lang}-{testtool.name}/archive/refs/tags/{testtool.version}.tar.gz"
-
     def compute_asset_sha256(self, testtool: TestTool) -> str:
         # 读取本次发布的产物信息，并计算sha256值
         output_file = (
