@@ -14,6 +14,7 @@ def test_validate_correct_pytest_tool() -> None:
 
     assert tool.name == "pytest"
     assert tool.version == "0.1.6"
+    assert tool.git_pkg_url == "github.com/OpenTestSolar/testtool-python@main:pytest"
 
     assert tool.support_os[0] == OsType.Windows
     assert tool.support_os[1] == OsType.Linux
