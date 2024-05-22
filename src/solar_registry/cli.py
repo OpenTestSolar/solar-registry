@@ -50,7 +50,7 @@ def validate(tool_name: str, working_dir: Optional[str] = None) -> None:
     :param working_dir: 可选工作目录
     """
     testtool = get_testtool(tool_name, working_dir)
-    logger.info(f"测试工具 {testtool.name} 有效性校验通过")
+    logger.info(f"✅ 测试工具 {testtool.name} 有效性校验通过")
 
 
 @app.command()
