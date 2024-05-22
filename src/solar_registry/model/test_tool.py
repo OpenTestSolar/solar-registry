@@ -65,6 +65,7 @@ class TestTool(BaseModel):
     support_os: list[OsType] | None = Field(None, alias="supportOS")
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
+    git_pkg_url: str = Field("", alias="gitPkgUrl")
 
     def check_valid(self) -> None:
         """
@@ -73,8 +74,9 @@ class TestTool(BaseModel):
         直接在模型中增加非None检查会导致旧版本的测试工具元数据解析报错，所以单独提取一个函数用于校验，需要的时候再调用
         """
 
-        assert self.support_os
-        assert self.support_arch
+        assert self.support_os, "should have support_os in yaml"
+        assert self.support_arch, "should have support_arch in yaml"
+        assert self.git_pkg_url, "should have git_pkg_url in yaml"
 
 
 class TestToolTarget(BaseModel):
