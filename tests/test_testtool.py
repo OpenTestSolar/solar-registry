@@ -4,6 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from solar_registry.service.testtool import get_testtool
+from solar_registry.model.test_tool import OsType, ArchType
 
 
 def test_validate_correct_pytest_tool() -> None:
@@ -13,6 +14,13 @@ def test_validate_correct_pytest_tool() -> None:
 
     assert tool.name == "pytest"
     assert tool.version == "0.1.6"
+
+    assert tool.support_os[0] == OsType.Windows
+    assert tool.support_os[1] == OsType.Linux
+    assert tool.support_os[2] == OsType.Darwin
+
+    assert tool.support_arch[0] == ArchType.Amd64
+    assert tool.support_arch[1] == ArchType.Arm64
 
 
 def test_validate_name_error() -> None:

@@ -27,6 +27,18 @@ class Entry(BaseModel):
     run: str
 
 
+class OsType(str, Enum):
+    Linux = "linux"
+    Windows = "windows"
+    Darwin = "darwin"
+    Android = "android"
+
+
+class ArchType(str, Enum):
+    Amd64 = "amd64"
+    Arm64 = "arm64"
+
+
 class TestTool(BaseModel):
     __test__ = False
 
@@ -50,18 +62,9 @@ class TestTool(BaseModel):
     version_file: str = Field(alias="versionFile")
     index_file: str = Field(alias="indexFile")
     scaffold_repo: str = Field(alias="scaffoldRepo")
+    support_os: list[OsType] | None = Field(None, alias="supportOS")
+    support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
-
-
-class OsType(str, Enum):
-    Linux = "linux"
-    Windows = "windows"
-    Darwin = "darwin"
-
-
-class ArchType(str, Enum):
-    Amd64 = "amd64"
-    Arm64 = "arm64"
 
 
 class TestToolTarget(BaseModel):
