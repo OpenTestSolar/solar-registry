@@ -68,6 +68,7 @@ class TestTool(BaseModel):
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
     name_zh: str = Field("补全工具中文名称", alias="nameZh", min_length=5, max_length=50)
+    legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
 
     def check_valid(self) -> None:
         """
