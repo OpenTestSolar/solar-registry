@@ -39,6 +39,10 @@ class ArchType(str, Enum):
     Arm64 = "arm64"
 
 
+class LegacySpec(BaseModel):
+    res_pkg_url: str = Field(alias="resPkgUrl")
+
+
 class TestTool(BaseModel):
     __test__ = False
 
@@ -47,9 +51,7 @@ class TestTool(BaseModel):
     """
 
     schema_version: float = Field(alias="schemaVersion")
-
-    # 必须是小写英文字母
-    name: str = Field(pattern=r"^[a-z]+$")
+    name: str = Field(pattern=r"^[a-zA-Z-]+$")
     description: str = Field(min_length=10, max_length=1000)
 
     # x.x.x 格式版本
@@ -65,6 +67,7 @@ class TestTool(BaseModel):
     support_os: list[OsType] | None = Field(None, alias="supportOS")
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
+    name_zh: str = Field("补全工具中文名称", alias="nameZh", min_length=5, max_length=50)
 
     def check_valid(self) -> None:
         """
@@ -73,8 +76,10 @@ class TestTool(BaseModel):
         直接在模型中增加非None检查会导致旧版本的测试工具元数据解析报错，所以单独提取一个函数用于校验，需要的时候再调用
         """
 
-        assert self.support_os
-        assert self.support_arch
+        assert self.support_os, f"need supportOS field, input is: {self.support_os}"
+        assert len(self.support_os) > 0, f"need at least 1 support OS"
+        assert self.support_arch, f"need supportArch field, input is: {self.support_arch}"
+        assert len(self.support_arch) > 0, f"need at least 1 support arch"
 
 
 class TestToolTarget(BaseModel):
