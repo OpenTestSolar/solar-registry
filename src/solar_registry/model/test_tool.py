@@ -67,6 +67,7 @@ class TestTool(BaseModel):
     support_os: list[OsType] | None = Field(None, alias="supportOS")
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
+    git_pkg_url: str = Field("", alias="gitPkgUrl")
     name_zh: str = Field("补全工具中文名称", alias="nameZh", min_length=5, max_length=50)
     legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
 
@@ -77,10 +78,11 @@ class TestTool(BaseModel):
         直接在模型中增加非None检查会导致旧版本的测试工具元数据解析报错，所以单独提取一个函数用于校验，需要的时候再调用
         """
 
-        assert self.support_os, f"need supportOS field, input is: {self.support_os}"
+        assert self.support_os, "should have support_os in yaml"
         assert len(self.support_os) > 0, f"need at least 1 support OS"
-        assert self.support_arch, f"need supportArch field, input is: {self.support_arch}"
+        assert self.support_arch, "should have support_arch in yaml"
         assert len(self.support_arch) > 0, f"need at least 1 support arch"
+        assert self.git_pkg_url, "should have git_pkg_url in yaml"
 
 
 class TestToolTarget(BaseModel):
