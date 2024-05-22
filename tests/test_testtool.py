@@ -39,3 +39,25 @@ def test_validate_version_error() -> None:
         get_testtool("pytest", workdir)
 
     assert r"String should match pattern '^(\d+\.\d+\.\d+|stable)$'" in str(ve.value)
+
+
+def test_validate_os_type_error() -> None:
+    workdir = str((Path(__file__).parent / "testdata" / "error_os_and_arch").resolve())
+
+    with pytest.raises(ValidationError) as ve:
+        get_testtool("pytest", workdir)
+
+    print(ve)
+
+    assert r"Input should be 'linux', 'windows', 'darwin' or 'android'" in str(ve.value)
+
+
+def test_validate_arch_type_error() -> None:
+    workdir = str((Path(__file__).parent / "testdata" / "error_os_and_arch").resolve())
+
+    with pytest.raises(ValidationError) as ve:
+        get_testtool("pytest1", workdir)
+
+    print(ve)
+
+    assert r"Input should be 'amd64' or 'arm64'" in str(ve.value)
