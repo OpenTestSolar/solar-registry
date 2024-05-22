@@ -7,8 +7,6 @@ from loguru import logger
 from ..model.test_tool import (
     TestTool,
     TestToolTarget,
-    OsType,
-    ArchType,
     TestToolMetadata,
 )
 from ..util.file import download_file_to
