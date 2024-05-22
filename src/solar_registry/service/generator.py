@@ -7,8 +7,6 @@ from loguru import logger
 from ..model.test_tool import (
     TestTool,
     TestToolTarget,
-    OsType,
-    ArchType,
     TestToolMetadata,
 )
 from ..util.file import download_file_to
@@ -40,8 +38,12 @@ class Generator:
 
     def generate_targets(self, testtool: TestTool, sha256: str) -> list[TestToolTarget]:
         re: list[TestToolTarget] = []
-        for _os in [OsType.Linux, OsType.Windows, OsType.Darwin]:
-            for arch in [ArchType.Amd64, ArchType.Arm64]:
+
+        assert testtool.support_os
+        assert testtool.support_arch
+
+        for _os in testtool.support_os:
+            for arch in testtool.support_arch:
                 re.append(
                     TestToolTarget(
                         os=_os,

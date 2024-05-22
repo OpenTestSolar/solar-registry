@@ -58,7 +58,16 @@
       "homePage": "https://github.com/OpenTestSolar/testtool-python-pytest",
       "versionFile": "https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/python/pytest/metadata.json",
       "indexFile": "https://raw.githubusercontent.com/OpenTestSolar/testtool-registry/main/testtools/stable.index.json",
-      "scaffoldRepo": "https://github.com/OpenTestSolar/testtool-scaffold-python-pytest/archive/refs/tags/0.1.0.tar.gz"
+      "scaffoldRepo": "https://github.com/OpenTestSolar/testtool-scaffold-python-pytest/archive/refs/tags/0.1.0.tar.gz",
+      "supportOS": [
+        "windows",
+        "linux",
+        "darwin"
+      ],
+      "supportArch": [
+        "amd64",
+        "arm64"
+      ]
     }
   ]
 }

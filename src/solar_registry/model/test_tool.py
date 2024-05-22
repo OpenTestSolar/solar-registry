@@ -27,6 +27,18 @@ class Entry(BaseModel):
     run: str
 
 
+class OsType(str, Enum):
+    Linux = "linux"
+    Windows = "windows"
+    Darwin = "darwin"
+    Android = "android"
+
+
+class ArchType(str, Enum):
+    Amd64 = "amd64"
+    Arm64 = "arm64"
+
+
 class TestTool(BaseModel):
     __test__ = False
 
@@ -50,18 +62,19 @@ class TestTool(BaseModel):
     version_file: str = Field(alias="versionFile")
     index_file: str = Field(alias="indexFile")
     scaffold_repo: str = Field(alias="scaffoldRepo")
+    support_os: list[OsType] | None = Field(None, alias="supportOS")
+    support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
 
+    def check_valid(self) -> None:
+        """
+        检查测试工具定义是否合法
 
-class OsType(str, Enum):
-    Linux = "linux"
-    Windows = "windows"
-    Darwin = "darwin"
+        直接在模型中增加非None检查会导致旧版本的测试工具元数据解析报错，所以单独提取一个函数用于校验，需要的时候再调用
+        """
 
-
-class ArchType(str, Enum):
-    Amd64 = "amd64"
-    Arm64 = "arm64"
+        assert self.support_os
+        assert self.support_arch
 
 
 class TestToolTarget(BaseModel):

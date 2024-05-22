@@ -71,3 +71,10 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
 entry:
   load: "python3 /testtools/qta/src/load.py $1"
   run: "python3 /testtools/qta/src/run.py $1"
+supportOS:
+  - windows
+  - linux
+  - darwin
+supportArch:
+  - amd64
+  - arm64

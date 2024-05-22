@@ -26,6 +26,11 @@ class ToolValidator:
 
         with open(stable_index_file) as f:
             sim = StableIndexMetaData.model_validate_json(f.read())
+
+            for x in sim.tools:
+                assert x.support_os
+                assert x.support_arch
+
             logger.info(f"✅ Validated stable index file [{stable_index_file}] OK.")
             logger.info(f"✅ It has {len(sim.tools)} tools.")
 
