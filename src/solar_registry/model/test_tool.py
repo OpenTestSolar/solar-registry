@@ -66,6 +66,16 @@ class TestTool(BaseModel):
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
 
+    def check_valid(self) -> None:
+        """
+        检查测试工具定义是否合法
+
+        直接在模型中增加非None检查会导致旧版本的测试工具元数据解析报错，所以单独提取一个函数用于校验，需要的时候再调用
+        """
+
+        assert self.support_os
+        assert self.support_arch
+
 
 class TestToolTarget(BaseModel):
     __test__ = False
