@@ -68,7 +68,7 @@ class TestTool(BaseModel):
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
     git_pkg_url: str = Field("", alias="gitPkgUrl")
-    name_zh: str = Field("", alias="nameZh", min_length=5, max_length=50)
+    name_zh: str = Field("", alias="nameZh")
     legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
 
     def check_valid(self) -> None:
