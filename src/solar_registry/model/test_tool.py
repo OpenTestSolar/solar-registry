@@ -39,6 +39,10 @@ class ArchType(str, Enum):
     Arm64 = "arm64"
 
 
+class LegacySpec(BaseModel):
+    res_pkg_url: str = Field(alias="resPkgUrl")
+
+
 class TestTool(BaseModel):
     __test__ = False
 
@@ -47,9 +51,7 @@ class TestTool(BaseModel):
     """
 
     schema_version: float = Field(alias="schemaVersion")
-
-    # 必须是小写英文字母
-    name: str = Field(pattern=r"^[a-z]+$")
+    name: str = Field(pattern=r"^[a-zA-Z-]+$")
     description: str = Field(min_length=10, max_length=1000)
 
     # x.x.x 格式版本
@@ -66,6 +68,8 @@ class TestTool(BaseModel):
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
     git_pkg_url: str = Field("", alias="gitPkgUrl")
+    name_zh: str = Field("补全工具中文名称", alias="nameZh", min_length=5, max_length=50)
+    legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
 
     def check_valid(self) -> None:
         """
@@ -75,7 +79,9 @@ class TestTool(BaseModel):
         """
 
         assert self.support_os, "should have supportOS in yaml"
+        assert len(self.support_os) > 0, "need at least 1 support OS"
         assert self.support_arch, "should have supportArch in yaml"
+        assert len(self.support_arch) > 0, "need at least 1 support arch"
         assert self.git_pkg_url, "should have gitPkgUrl in yaml"
 
 

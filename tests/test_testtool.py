@@ -14,12 +14,15 @@ def test_validate_correct_pytest_tool() -> None:
 
     assert tool.name == "pytest"
     assert tool.version == "0.1.6"
+    assert tool.name_zh == "pytest自动化测试"
     assert tool.git_pkg_url == "github.com/OpenTestSolar/testtool-python@main:pytest"
 
+    assert tool.support_os
     assert tool.support_os[0] == OsType.Windows
     assert tool.support_os[1] == OsType.Linux
     assert tool.support_os[2] == OsType.Darwin
 
+    assert tool.support_arch
     assert tool.support_arch[0] == ArchType.Amd64
     assert tool.support_arch[1] == ArchType.Arm64
 
@@ -30,7 +33,7 @@ def test_validate_name_error() -> None:
     with pytest.raises(ValidationError) as ve:
         get_testtool("pytest", workdir)
 
-    assert r"String should match pattern '^[a-z]+$'" in str(ve.value)
+    assert r"String should match pattern '^[a-zA-Z-]+$'" in str(ve.value)
 
 
 def test_validate_version_error() -> None:

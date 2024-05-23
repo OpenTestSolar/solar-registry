@@ -1,5 +1,6 @@
 schemaVersion: 1.0
 name: pytest
+nameZh: pytest自动化测试
 lang: python
 langType: "INTERPRETED"
 description: Pytest测试工具
