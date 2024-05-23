@@ -66,10 +66,10 @@ class Generator:
     def compute_asset_sha256(self, testtool: TestTool) -> str:
         # 读取本次发布的产物信息，并计算sha256值
         output_file = (
-                Path("/tmp/testsolar/generate")
-                / testtool.lang
-                / testtool.name
-                / "output.tar.gz"
+            Path("/tmp/testsolar/generate")
+            / testtool.lang
+            / testtool.name
+            / "output.tar.gz"
         )
         output_file.parent.mkdir(parents=True, exist_ok=True)
 

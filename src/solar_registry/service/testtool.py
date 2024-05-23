@@ -12,7 +12,9 @@ def get_testtool(tool_name: str, workdir: str | None) -> TestTool:
     workdir = workdir or os.getcwd()
     with open(Path(workdir) / tool_name / "testtool.yaml") as f:
         testtool = TestTool.model_validate(yaml.safe_load(f))
-        logger.debug(f"loaded testtool: {testtool.model_dump_json(indent=2, exclude_none=True)}")
+        logger.debug(
+            f"loaded testtool: {testtool.model_dump_json(indent=2, exclude_none=True)}"
+        )
         testtool.check_valid()
         return testtool
 
