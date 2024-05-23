@@ -80,9 +80,12 @@ class TestTool(BaseModel):
 
         assert self.support_os, "should have supportOS in yaml"
         assert len(self.support_os) > 0, "need at least 1 support OS"
+
         assert self.support_arch, "should have supportArch in yaml"
         assert len(self.support_arch) > 0, "need at least 1 support arch"
+
         assert self.git_pkg_url, "should have gitPkgUrl in yaml"
+
         assert self.name_zh, "should have nameZh in yaml"
 
 
