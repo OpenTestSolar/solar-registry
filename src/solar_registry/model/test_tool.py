@@ -68,7 +68,7 @@ class TestTool(BaseModel):
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
     git_pkg_url: str = Field("", alias="gitPkgUrl")
-    name_zh: str = Field("补全工具中文名称", alias="nameZh", min_length=5, max_length=50)
+    name_zh: str = Field("", alias="nameZh", min_length=5, max_length=50)
     legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
 
     def check_valid(self) -> None:
@@ -83,6 +83,7 @@ class TestTool(BaseModel):
         assert self.support_arch, "should have supportArch in yaml"
         assert len(self.support_arch) > 0, "need at least 1 support arch"
         assert self.git_pkg_url, "should have gitPkgUrl in yaml"
+        assert self.name_zh, "should have nameZh in yaml"
 
 
 class TestToolTarget(BaseModel):
