@@ -39,17 +39,17 @@ class MetaMerger:
             )
 
         meta_file = (
-            Path(output_dir)
-            / "testtools"
-            / self.testtool.lang
-            / self.testtool.name
-            / "metadata.json"
+                Path(output_dir)
+                / "testtools"
+                / self.testtool.lang
+                / self.testtool.name
+                / "metadata.json"
         )
         meta_file.parent.mkdir(exist_ok=True, parents=True)
         with open(
-            meta_file,
-            "w",
-            encoding="utf-8",
+                meta_file,
+                "w",
+                encoding="utf-8",
         ) as f:
             f.write(
                 new_history.model_dump_json(by_alias=True, indent=2, exclude_none=True)
@@ -117,7 +117,7 @@ class MetaMerger:
             else:
                 stable_result.tools.append(self.testtool)
 
-            logger.info(f"Merge stable index: {stable_result}")
+            logger.info(f"Merge stable index: {stable_result.model_dump_json(by_alias=True, indent=2, exclude_none=True)}")
             return stable_result
 
     def _merge_meta_history(self, history: MetaDataHistory) -> MetaDataHistory:
@@ -140,7 +140,7 @@ class MetaMerger:
 
     @staticmethod
     def _upsert_meta_history(
-        tool_meta: TestToolMetadata, history: MetaDataHistory
+            tool_meta: TestToolMetadata, history: MetaDataHistory
     ) -> MetaDataHistory:
         for index, version in enumerate(history.versions):
             if version.meta.version == tool_meta.meta.version:
