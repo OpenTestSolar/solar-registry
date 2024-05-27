@@ -1,5 +1,5 @@
 schemaVersion: 1.0
-name: PyTest_XXX
+name: PyTest
 lang: python
 langType: "INTERPRETED"
 description: Pytest测试工具
@@ -12,11 +12,3 @@ homePage: https://github.com/OpenTestSolar/testtool-python-pytest
 entry:
   load: "python3 /testtools/qta/src/load.py $1"
   run: "python3 /testtools/qta/src/run.py $1"
-supportOS:
-  - windows
-  - linux
-  - darwin
-supportArch:
-  - amd64
-  - arm64
-gitPkgUrl: github.com/OpenTestSolar/testtool-python@main:pytest

@@ -7,7 +7,10 @@
 from enum import Enum
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationInfo, model_validator
+from typing_extensions import Self
+
+from .legacy import LegacySpec
 
 
 class ParamChoice(BaseModel):
@@ -15,11 +18,32 @@ class ParamChoice(BaseModel):
     desc: str
 
 
+class ParamWidget(str, Enum):
+    Code = "code"
+    Text = "text"
+    Number = "number"
+    Choices = "choices"
+
+
 class ParamDef(BaseModel):
     name: str
     value: str
+
     default: str
     choices: list[ParamChoice] | None = None
+
+    # 兼容历史工具
+    lang: str | None = None
+    input_widget: ParamWidget | None = Field(None, alias="input-widget")
+    desc: str = ""
+
+    @model_validator(mode="after")
+    def check_valid(self, info: ValidationInfo) -> Self:
+        context = info.context
+        if context and context.get("strict") and not self.desc:
+            raise ValueError("ParamDef desc must be set")
+
+        return self
 
 
 class Entry(BaseModel):
@@ -37,10 +61,6 @@ class OsType(str, Enum):
 class ArchType(str, Enum):
     Amd64 = "amd64"
     Arm64 = "arm64"
-
-
-class LegacySpec(BaseModel):
-    res_pkg_url: str = Field(alias="resPkgUrl")
 
 
 class TestTool(BaseModel):
@@ -63,7 +83,7 @@ class TestTool(BaseModel):
     home_page: str = Field(alias="homePage")
     version_file: str = Field(alias="versionFile")
     index_file: str = Field(alias="indexFile")
-    scaffold_repo: str = Field(alias="scaffoldRepo")
+    scaffold_repo: str = Field("", alias="scaffoldRepo")
     support_os: list[OsType] | None = Field(None, alias="supportOS")
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
@@ -71,22 +91,38 @@ class TestTool(BaseModel):
     name_zh: str = Field("", alias="nameZh")
     legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
 
-    def check_valid(self) -> None:
+    @model_validator(mode="after")
+    def check_valid(self, info: ValidationInfo) -> Self:
         """
         检查测试工具定义是否合法
 
         直接在模型中增加非None检查会导致旧版本的测试工具元数据解析报错，所以单独提取一个函数用于校验，需要的时候再调用
         """
+        context = info.context
+        if context and context.get("strict"):
+            if not self.support_os:
+                raise ValueError("supportOS must be set")
+            if not len(self.support_os) > 0:
+                raise ValueError("need at least 1 support OS")
 
-        assert self.support_os, "should have supportOS in yaml"
-        assert len(self.support_os) > 0, "need at least 1 support OS"
+            if not self.support_arch:
+                raise ValueError("need at least 1 support arch")
+            if not len(self.support_arch) > 0:
+                raise ValueError("need at least 1 support arch")
 
-        assert self.support_arch, "should have supportArch in yaml"
-        assert len(self.support_arch) > 0, "need at least 1 support arch"
+            if not self.legacy_spec:
+                if not self.git_pkg_url:
+                    raise ValueError("gitPkgUrl must be set")
+                if not self.version_file:
+                    raise ValueError("versionFile must be set")
+                if not self.index_file:
+                    raise ValueError("indexFile must be set")
+                if not self.scaffold_repo:
+                    raise ValueError("scaffoldRepo must be set")
 
-        assert self.git_pkg_url, "should have gitPkgUrl in yaml"
+            assert self.name_zh, "should have nameZh in yaml"
 
-        assert self.name_zh, "should have nameZh in yaml"
+        return self
 
 
 class TestToolTarget(BaseModel):
