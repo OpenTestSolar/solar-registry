@@ -9,6 +9,8 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
+from .legacy import LegacySpec
+
 
 class ParamChoice(BaseModel):
     value: str
@@ -18,8 +20,13 @@ class ParamChoice(BaseModel):
 class ParamDef(BaseModel):
     name: str
     value: str
+    desc: str
     default: str
     choices: list[ParamChoice] | None = None
+
+    # 兼容历史工具
+    lang: str | None = None
+    input_widget: str | None = None
 
 
 class Entry(BaseModel):
@@ -37,10 +44,6 @@ class OsType(str, Enum):
 class ArchType(str, Enum):
     Amd64 = "amd64"
     Arm64 = "arm64"
-
-
-class LegacySpec(BaseModel):
-    res_pkg_url: str = Field(alias="resPkgUrl")
 
 
 class TestTool(BaseModel):
@@ -84,8 +87,11 @@ class TestTool(BaseModel):
         assert self.support_arch, "should have supportArch in yaml"
         assert len(self.support_arch) > 0, "need at least 1 support arch"
 
-        assert self.git_pkg_url, "should have gitPkgUrl in yaml"
-
+        if not self.legacy_spec:
+            assert self.git_pkg_url, "should have gitPkgUrl in yaml"
+            assert self.version_file, "should have versionFile in yaml"
+            assert self.index_file, "should have indexFile in yaml"
+            assert self.scaffold_repo, "should have scaffoldRepo in yaml"
         assert self.name_zh, "should have nameZh in yaml"
 
 
