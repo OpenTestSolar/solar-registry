@@ -155,4 +155,10 @@ class MetaMerger:
         # 读取本地生成好的metadata文件
         logger.info("Creating meta history...")
         history = MetaDataHistory(versions=[self.metadata])
+
+        # 在历史记录中增加一个固定的stable版本，方便用户使用
+        stable_version = self.metadata.model_copy(deep=True)
+        stable_version.meta.version = "stable"
+        history.versions.append(stable_version)
+
         return history
