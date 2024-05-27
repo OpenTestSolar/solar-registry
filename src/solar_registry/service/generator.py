@@ -24,15 +24,20 @@ class Generator:
         logger.info(
             f"Generating meta data for {self.testtool.model_dump_json(by_alias=True, indent=2, exclude_none=True)}"
         )
-        sha256 = self.compute_asset_sha256(self.testtool)
 
-        metadata = TestToolMetadata(
-            meta=self.testtool, target=self.generate_targets(self.testtool, sha256)
-        )
-
-        logger.info(
-            f"Generated metadata: {metadata.model_dump_json(indent=2, by_alias=True, exclude_none=True)}"
-        )
+        if not self.testtool.legacy_spec:
+            sha256 = self.compute_asset_sha256(self.testtool)
+            metadata = TestToolMetadata(
+                meta=self.testtool, target=self.generate_targets(self.testtool, sha256)
+            )
+            logger.info(
+                f"Generated metadata: {metadata.model_dump_json(indent=2, by_alias=True, exclude_none=True)}"
+            )
+        else:
+            logger.info(
+                f"Testtool {self.testtool.name} is legacy tool, skip target generation."
+            )
+            metadata = TestToolMetadata(meta=self.testtool, target=[])
 
         return metadata
 

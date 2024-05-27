@@ -13,6 +13,7 @@ homePage: https://github.com/OpenTestSolar/testtool-python-pytest
 parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
   - name: parseMode
     value: 加载用例的模式
+    desc: 加载用例的模式
     default: auto
     choices:
       - value: auto
@@ -41,6 +42,7 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
             - 依赖测试运行的pip包，解析速度较慢
   - name: runMode
     value: 运行用例的模式
+    desc: 加载用例的模式
     default: singleprocess # choice: singleprocess/multiprocess
     choices:
       - value: singleprocess
@@ -65,9 +67,11 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
             - 单机并发量设置太高可能导致执行机异常
   - name: qtafSettings
     value: QTAF测试项目配置
+    desc: QTAF测试项目配置
     default: ""
   - name: extraFieldsConfig
     value: 用例额外属性
+    desc: 用例额外属性
     default: ""
 entry:
   load: "python3 /testtools/qta/src/load.py $1"
