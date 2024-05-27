@@ -66,6 +66,7 @@ def test_parse_legacy_tool() -> None:
 
     assert tool.name == "apdtest"
     assert not tool.git_pkg_url
+    assert tool.param_defs
     param1 = tool.param_defs[0]
     assert param1.name == "setup_cmdline"
     assert param1.value == "初始化命令"
@@ -74,6 +75,7 @@ def test_parse_legacy_tool() -> None:
     assert param1.lang == "bash"
     assert param1.input_widget == ParamWidget.Code
 
+    assert tool.legacy_spec
     assert tool.legacy_spec.report_type == "junit"
     assert tool.legacy_spec.maintainers == ["aa", "bb"]
     assert tool.legacy_spec.testcase_runner.cli == "test"
