@@ -11,6 +11,7 @@ class LegacySpec(BaseModel):
     testcase_runner: MetaExtraField = Field(alias="testcaseRunner")
     testcase_loader: MetaExtraField = Field(alias="testcaseLoader")
     testcase_analyzer: MetaExtraField = Field(alias="testcaseAnalyzer")
+    scaffolding_tool: MetaExtraField = Field(alias="scaffoldingTool")
     node_setup: MetaExtraField = Field(alias="nodeSetup")
     node_cleanup: MetaExtraField = Field(alias="nodeCleanup")
     global_setup: MetaExtraField = Field(alias="globalSetup")

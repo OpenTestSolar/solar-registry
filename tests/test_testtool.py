@@ -4,7 +4,7 @@ import pytest
 from pydantic import ValidationError
 
 from solar_registry.service.testtool import get_testtool, _parse_testtool
-from solar_registry.model.test_tool import OsType, ArchType
+from solar_registry.model.test_tool import OsType, ArchType, ParamWidget
 
 
 def test_validate_correct_pytest_tool() -> None:
@@ -59,3 +59,32 @@ def test_validate_strict_with_no_arch() -> None:
 
     print(ve.value)
     assert r" Value error, need at least 1 support arch" in str(ve.value)
+
+
+def test_parse_legacy_tool() -> None:
+    tool = _parse_testtool(Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml", strict=True)
+
+    assert tool.name == "apdtest"
+    assert not tool.git_pkg_url
+    param1 = tool.param_defs[0]
+    assert param1.name == "setup_cmdline"
+    assert param1.value == "初始化命令"
+    assert param1.desc == "加载/执行用例前的初始化命令"
+    assert param1.default == "# place your extra init command here"
+    assert param1.lang == "bash"
+    assert param1.input_widget == ParamWidget.Code
+
+    assert tool.legacy_spec.report_type == "junit"
+    assert tool.legacy_spec.maintainers == ["aa", "bb"]
+    assert tool.legacy_spec.testcase_runner.cli == "test"
+    assert tool.legacy_spec.testcase_loader.cli == "test"
+    assert tool.legacy_spec.testcase_analyzer.cli == "test"
+    assert tool.legacy_spec.scaffolding_tool.cli == "test"
+    assert tool.legacy_spec.node_setup.cli == "test"
+    assert tool.legacy_spec.node_cleanup.cli == "test"
+    assert tool.legacy_spec.global_setup.cli == "test"
+    assert tool.legacy_spec.global_cleanup.cli == "test"
+    assert tool.legacy_spec.res_pkg_url == "https://sample.com/pkg"
+    assert tool.legacy_spec.doc_url == "https://sample.com/doc"
+    assert tool.legacy_spec.logo_img_url == "https://sample.com/logo"
+    assert not tool.legacy_spec.enable_code_coverage

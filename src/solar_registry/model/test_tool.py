@@ -34,7 +34,7 @@ class ParamDef(BaseModel):
 
     # 兼容历史工具
     lang: str | None = None
-    input_widget: str | None = None
+    input_widget: ParamWidget | None = Field(None, alias="input-widget")
     desc: str = ""
 
     @model_validator(mode="after")
@@ -83,7 +83,7 @@ class TestTool(BaseModel):
     home_page: str = Field(alias="homePage")
     version_file: str = Field(alias="versionFile")
     index_file: str = Field(alias="indexFile")
-    scaffold_repo: str = Field(alias="scaffoldRepo")
+    scaffold_repo: str = Field("", alias="scaffoldRepo")
     support_os: list[OsType] | None = Field(None, alias="supportOS")
     support_arch: list[ArchType] | None = Field(None, alias="supportArch")
     entry: Entry | None = Field(None, alias="entry")
