@@ -5,10 +5,9 @@
 """
 
 from enum import Enum
-from typing import Literal
+from typing import Literal, Self
 
 from pydantic import BaseModel, Field, ValidationInfo, model_validator
-from typing_extensions import Self
 
 from .legacy import LegacySpec
 
@@ -120,7 +119,8 @@ class TestTool(BaseModel):
                 if not self.scaffold_repo:
                     raise ValueError("scaffoldRepo must be set")
 
-            assert self.name_zh, "should have nameZh in yaml"
+            if not self.name_zh:
+                raise ValueError("name_zh must be set")
 
         return self
 
