@@ -15,7 +15,7 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
     desc: 加载/执行用例前的初始化命令
     default: "# place your extra init command here"
     lang: "bash"
-    input-widget: "code"
+    inputWidget: "code"
 entry:
   load: "python3 /testtools/qta/src/load.py $1"
   run: "python3 /testtools/qta/src/run.py $1"

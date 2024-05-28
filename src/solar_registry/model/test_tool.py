@@ -33,7 +33,7 @@ class ParamDef(BaseModel):
 
     # 兼容历史工具
     lang: str | None = None
-    input_widget: ParamWidget | None = Field(None, alias="input-widget")
+    input_widget: ParamWidget | None = Field(None, alias="inputWidget")
     desc: str = ""
 
     @model_validator(mode="after")
