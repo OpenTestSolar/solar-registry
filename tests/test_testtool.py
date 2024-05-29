@@ -64,7 +64,7 @@ def test_validate_strict_with_no_arch() -> None:
 def test_parse_legacy_tool() -> None:
     tool = _parse_testtool(Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml", strict=True)
 
-    assert tool.name == "apdtest"
+    assert tool.name == "qt4s"
     assert not tool.git_pkg_url
     assert tool.param_defs
     param1 = tool.param_defs[0]
