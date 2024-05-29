@@ -76,6 +76,7 @@ def test_parse_legacy_tool() -> None:
     assert param1.input_widget == ParamWidget.Code
 
     assert tool.legacy_spec
+    assert tool.legacy_name == "qt4s"
     assert tool.legacy_spec.report_type == "junit"
     assert tool.legacy_spec.maintainers == ["aa", "bb"]
     assert tool.legacy_spec.testcase_runner.cli == "test"
