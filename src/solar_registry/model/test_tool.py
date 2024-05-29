@@ -70,7 +70,7 @@ class TestTool(BaseModel):
     """
 
     schema_version: float = Field(alias="schemaVersion")
-    name: str = Field(pattern=r"^[a-zA-Z-]+$")
+    name: str = Field(pattern=r"^[a-zA-Z-0-9]+$")
     description: str = Field(min_length=10, max_length=1000)
 
     # x.x.x 格式版本

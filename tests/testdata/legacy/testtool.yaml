@@ -1,13 +1,13 @@
 schemaVersion: 1.0
-name: apdtest
-nameZh: apdtest自动化测试
+name: qt4s
+nameZh: qt4s自动化测试
 lang: python
 langType: "INTERPRETED"
-description: apdtest测试工具
+description: qt4s自动化测试工具
 version: '0.1.6'
 defaultBaseImage: python:3.10 # 用户在 TestContainer 配置中未指定 baseImage 时的默认镜像
 indexFile: https://opentestsolar.github.io/testtool-registry/testtools/stable.index.json
-versionFile: https://opentestsolar.github.io/testtool-registry/testtools/python/apdtest/metadata.json
+versionFile: https://opentestsolar.github.io/testtool-registry/testtools/python/qt4s/metadata.json
 homePage: https://github.com/OpenTestSolar/testtool-python-pytest
 parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
   - name: setup_cmdline
