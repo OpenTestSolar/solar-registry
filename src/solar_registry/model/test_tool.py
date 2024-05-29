@@ -71,6 +71,7 @@ class TestTool(BaseModel):
 
     schema_version: float = Field(alias="schemaVersion")
     name: str = Field(pattern=r"^[a-zA-Z-0-9]+$")
+    legacy_name: str = Field("", alias="legacyName")
     description: str = Field(min_length=10, max_length=1000)
 
     # x.x.x 格式版本
@@ -118,6 +119,9 @@ class TestTool(BaseModel):
                     raise ValueError("indexFile must be set")
                 if not self.scaffold_repo:
                     raise ValueError("scaffoldRepo must be set")
+            else:
+                if not self.legacy_name:
+                    raise ValueError("legacyName must be set")
 
             if not self.name_zh:
                 raise ValueError("name_zh must be set")
