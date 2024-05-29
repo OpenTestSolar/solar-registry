@@ -4,7 +4,7 @@ from pydantic import BaseModel, Field
 
 
 class MetaExtraField(BaseModel):
-    cli: str | None
+    cli: str | None = None
 
 
 class LegacySpec(BaseModel):
