@@ -40,6 +40,7 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
           缺点：
             - 用户测试用例有运行时依赖，在加载阶段可能无法成功
             - 依赖测试运行的pip包，解析速度较慢
+    inputWidget: choices
   - name: runMode
     value: 运行用例的模式
     desc: 加载用例的模式
@@ -65,14 +66,19 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
           缺点：
             - 不保证用例执行顺序
             - 单机并发量设置太高可能导致执行机异常
+    inputWidget: choices
   - name: qtafSettings
     value: QTAF测试项目配置
     desc: QTAF测试项目配置
     default: ""
+    lang: python
+    inputWidget: code
   - name: extraFieldsConfig
     value: 用例额外属性
     desc: 用例额外属性
+    lang: json
     default: ""
+    inputWidget: code
 entry:
   load: "python3 /testtools/qta/src/load.py $1"
   run: "python3 /testtools/qta/src/run.py $1"

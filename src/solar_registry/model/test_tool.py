@@ -27,6 +27,7 @@ class ParamWidget(str, Enum):
 class ParamDef(BaseModel):
     name: str
     value: str
+    desc: str = ""
 
     default: str
     choices: list[ParamChoice] | None = None
@@ -34,13 +35,15 @@ class ParamDef(BaseModel):
     # 兼容历史工具
     lang: str | None = None
     input_widget: ParamWidget | None = Field(None, alias="inputWidget")
-    desc: str = ""
 
     @model_validator(mode="after")
     def check_valid(self, info: ValidationInfo) -> Self:
         context = info.context
-        if context and context.get("strict") and not self.desc:
-            raise ValueError("ParamDef desc must be set")
+        if context and context.get("strict"):
+            if not self.desc:
+                raise ValueError("ParamDef desc must be set")
+            if not self.input_widget:
+                raise ValueError("ParamDef inputWidget must be set")
 
         return self
 
