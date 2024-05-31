@@ -79,7 +79,7 @@ class TestTool(BaseModel):
 
     # x.x.x 格式版本
     version: str = Field(pattern=r"^(\d+\.\d+\.\d+|stable)$")
-    lang: Literal["python", "golang", "javascript", "java"]
+    lang: Literal["python", "golang", "javascript", "java", "cpp"]
     base_image: str = Field(alias="defaultBaseImage")
     lang_type: Literal["COMPILED", "INTERPRETED"] = Field(alias="langType")
     param_defs: list[ParamDef] | None = Field(None, alias="parameterDefs")
