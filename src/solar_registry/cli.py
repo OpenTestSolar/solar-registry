@@ -1,3 +1,4 @@
+import sys
 from pathlib import Path
 from typing import Optional
 
@@ -42,13 +43,18 @@ def pull_request(
 
 
 @app.command()
-def validate(tool_name: str, working_dir: Optional[str] = None) -> None:
+def validate(tool_name: str, working_dir: Optional[str] = None, verbose: bool = False) -> None:
     """
     校验测试工具的testtools.yaml是否符合要求
 
+    :param verbose: 是否显示详细日志
     :param tool_name: 工具名称
     :param working_dir: 可选工作目录
     """
+    if not verbose:
+        logger.remove()
+        logger.add(sys.stdout, level="INFO")
+
     testtool = get_testtool(tool_name, working_dir)
     logger.info(f"✅ 测试工具 {testtool.name} 有效性校验通过")
 
