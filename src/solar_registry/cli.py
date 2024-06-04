@@ -43,7 +43,9 @@ def pull_request(
 
 
 @app.command()
-def validate(tool_name: str, working_dir: Optional[str] = None, verbose: bool = False) -> None:
+def validate(
+    tool_name: str, working_dir: Optional[str] = None, verbose: bool = False
+) -> None:
     """
     校验测试工具的testtools.yaml是否符合要求
 
