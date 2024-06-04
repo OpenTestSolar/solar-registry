@@ -93,6 +93,7 @@ class TestTool(BaseModel):
     git_pkg_url: str = Field("", alias="gitPkgUrl")
     name_zh: str = Field("", alias="nameZh")
     legacy_spec: LegacySpec | None = Field(None, alias="legacySpec")
+    certified: bool = Field(False, alias="certified", title="是否是TestSolar官方认证插件")
 
     @model_validator(mode="after")
     def check_valid(self, info: ValidationInfo) -> Self:

@@ -39,7 +39,7 @@ def test_validate_strict_with_errors() -> None:
 
     assert r"String should match pattern '^[a-zA-Z-0-9]+$'" in str(ve.value)
     assert r"Input should be 'COMPILED' or 'INTERPRETED'" in str(ve.value)
-    assert r"Input should be 'python', 'golang', 'javascript' or 'java'" in str(ve.value)
+    assert r"Input should be 'python', 'golang', 'javascript', 'java' or 'cpp'" in str(ve.value)
     assert r"String should match pattern '^(\d+\.\d+\.\d+|stable)$'" in str(ve.value)
     assert r"Input should be 'linux', 'windows', 'darwin' or 'android'" in str(ve.value)
     assert r"Input should be 'amd64' or 'arm64'" in str(ve.value)
