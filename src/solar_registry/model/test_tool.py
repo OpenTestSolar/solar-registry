@@ -307,6 +307,19 @@ class StableIndexMetaData(BaseModel):
     meta_version: str = Field("1", alias="metaVersion")
     tools: list[TestTool]
 
+    def merge_stable_index(self, tools_want_to_merge: list[TestTool]) -> None:
+
+        if not self.tools:
+            self.tools = []
+
+        for tool_to_merge in tools_want_to_merge:
+            for index, tool in enumerate(self.tools):
+                if tool.name == tool_to_merge.name:
+                    self.tools[index] = tool_to_merge
+                    break
+            else:
+                self.tools.append(tool_to_merge)
+
 
 class TestToolMetadata(BaseModel):
     __test__ = False
