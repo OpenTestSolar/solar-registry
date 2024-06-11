@@ -1,5 +1,5 @@
 schemaVersion: 1.0
-name: PyTest_XXX
+name: PyTest_XXX^78r63289
 lang: pypy
 langType: "Inter"
 description: Pytest测试工具
@@ -15,6 +15,7 @@ entry:
 parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
   - name: parseMode
     value: 加载用例的模式
+    desc: 加载用例的模式
     default: auto
     choices:
       - value: auto
@@ -22,6 +23,7 @@ parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
       - value: ast
         desc: |
           使用python内置的ast模块，运行静态语法分析模式来解析测试用例。
+    inputWidget: text
 supportOS:
   - rix
   - mac

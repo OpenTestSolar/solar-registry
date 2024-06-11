@@ -104,7 +104,7 @@ class TestTool(BaseModel):
 
     schema_version: float = Field(alias="schemaVersion")
     name: str = Field(
-        pattern=r"^[a-zA-Z-0-9]+$",
+        pattern=r"^[a-zA-Z-0-9_]+$",
         title="工具名称",
         description="允许英文字母+数字+`-`",
     )
