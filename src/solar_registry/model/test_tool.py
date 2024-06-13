@@ -151,6 +151,16 @@ class TestTool(BaseModel):
 用户也可以使用其他自定义镜像来满足自己的需求。
     """,
     )
+    supported_certified_images: list[str] | None = Field(
+        None,
+        alias="supportedCertifiedImages",
+        title="经过认证的官方测试镜像列表",
+        description="""
+测试工具提供的，官方支持的测试镜像列表。
+
+这些测试镜像由官方发布，经过官方测试和验证，确保使用稳定性。    
+    """,
+    )
     lang_type: Literal["COMPILED", "INTERPRETED"] = Field(
         alias="langType",
         title="语言类型",
@@ -257,7 +267,7 @@ entry中需要定义2个入口：
 部分测试工具已经无人使用，标记为归档。
 
 各系统可根据此信息来决定相关处理策略。        
-        """
+        """,
     )
 
     @model_validator(mode="after")
@@ -320,7 +330,6 @@ class StableIndexMetaData(BaseModel):
     tools: list[TestTool]
 
     def merge_stable_index(self, tools_want_to_merge: list[TestTool]) -> None:
-
         if not self.tools:
             self.tools = []
 
