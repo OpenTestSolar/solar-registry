@@ -249,6 +249,17 @@ entry中需要定义2个入口：
         """,
     )
 
+    archived: bool = Field(
+        False,
+        alias="archived",
+        title="是否已经归档",
+        description="""
+部分测试工具已经无人使用，标记为归档。
+
+各系统可根据此信息来决定相关处理策略。        
+        """
+    )
+
     @model_validator(mode="after")
     def check_valid(self, info: ValidationInfo) -> Self:
         """
