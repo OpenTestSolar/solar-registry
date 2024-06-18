@@ -95,6 +95,21 @@ class ArchType(str, Enum):
     Arm64 = "arm64"
 
 
+class TestCatalog(str, Enum):
+    UnitTest = "unit"
+    ServerAPITest = "server-api"
+    UITest = "ui"
+
+
+class TestDomain(str, Enum):
+    Android = "android"
+    IOS = "ios"
+    Windows = "windows"
+    Web = "web"
+    Macos = "macos"
+    Server = "server"
+
+
 class TestTool(BaseModel):
     __test__ = False
 
@@ -270,6 +285,26 @@ entry中需要定义2个入口：
         """,
     )
 
+    test_catalog: TestCatalog | None = Field(
+        None,
+        alias="testCatalog",
+        title="测试分类",
+        description="""
+说明测试工具的使用分类。    
+        """,
+    )
+
+    test_domains: list[TestDomain] | None = Field(
+        None,
+        alias="testDomains",
+        title="测试领域",
+        description="""
+说明测试工具的测试领域。
+
+一个测试工具可以支持多个不同的测试领域。    
+    """,
+    )
+
     @model_validator(mode="after")
     def check_valid(self, info: ValidationInfo) -> Self:
         """
@@ -281,6 +316,8 @@ entry中需要定义2个入口：
         if context and context.get("strict"):
             if not self.support_os:
                 raise ValueError("supportOS must be set")
+            if not self.test_catalog:
+                raise ValueError("testCatalog must be set")
             if not len(self.support_os) > 0:
                 raise ValueError("need at least 1 support OS")
 

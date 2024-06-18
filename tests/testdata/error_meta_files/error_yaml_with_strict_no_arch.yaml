@@ -16,3 +16,4 @@ supportOS:
   - windows
   - linux
   - darwin
+testCatalog: unit

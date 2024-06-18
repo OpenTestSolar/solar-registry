@@ -30,6 +30,8 @@ def test_validate_correct_pytest_tool() -> None:
     assert len(tool.supported_certified_images) == 4
     assert tool.supported_certified_images[0] == 'python:3.9'
 
+    assert tool.test_catalog == "unit"
+    assert tool.test_domains == ["windows", "macos", "server"]
 
 def test_validate_loose() -> None:
     _parse_testtool(Path(__file__).parent / "testdata" / "error_meta_files" / "error_yaml_with_loose.yaml", strict=False)

@@ -59,7 +59,8 @@
       },
       "gitPkgUrl": "git.woa.com/TestSolar/TestTool/python@master:pytest",
       "nameZh": "pytest自动化测试工具",
-      "certified": true
+      "certified": true,
+      "testCatalog": "unit"
     }
   ]
 }

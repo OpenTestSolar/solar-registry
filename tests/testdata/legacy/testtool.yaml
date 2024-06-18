@@ -49,7 +49,5 @@ legacySpec:
   logoImgUrl: https://sample.com/logo
   enableCodeCoverage: false
   maintainers: [ aa,bb ]
-
-
-
   reportType: junit
+testCatalog: unit
