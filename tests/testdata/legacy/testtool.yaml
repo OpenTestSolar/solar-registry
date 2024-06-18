@@ -51,3 +51,4 @@ legacySpec:
   maintainers: [ aa,bb ]
   reportType: junit
 testCatalog: unit
+testType: auto-test

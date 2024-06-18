@@ -97,3 +97,4 @@ def test_parse_legacy_tool() -> None:
     assert tool.legacy_spec.doc_url == "https://sample.com/doc"
     assert tool.legacy_spec.logo_img_url == "https://sample.com/logo"
     assert not tool.legacy_spec.enable_code_coverage
+    assert tool.legacy_spec.test_type == "auto-test"
