@@ -35,8 +35,10 @@ class PropertySpec(BaseModel):
     widget: str
     description: str
     name: str
+    default: str | None = None
     display_name: str = Field(alias="displayName")
     type: str
+    choices: dict[str, str] | None = None
 
 
 class TestProfile(BaseModel):
