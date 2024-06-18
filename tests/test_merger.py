@@ -35,5 +35,7 @@ def test_merge_meta_file() -> None:
             assert stable.target == current.target
 
 
-def find_if(lst: list[TestToolMetadata], predicate: Callable[[TestToolMetadata], bool]) -> TestToolMetadata | None:
+def find_if(
+    lst: list[TestToolMetadata], predicate: Callable[[TestToolMetadata], bool]
+) -> TestToolMetadata | None:
     return next((x for x in lst if predicate(x)), None)

@@ -47,6 +47,8 @@ class TestProfile(BaseModel):
         alias="resourceDefaultConfigs"
     )
     property_specs: list[PropertySpec] = Field(alias="propertySpecs")
+    job_template_xml: str | None = Field(None, alias="jobTemplateXml")
+    job_template_yaml: str | None = Field(None, alias="jobTemplateYaml")
 
 
 class LegacySpec(BaseModel):
@@ -66,5 +68,3 @@ class LegacySpec(BaseModel):
     maintainers: list[str] = Field(alias="maintainers")
     test_type: TestType = Field(TestType.AutoTest, alias="testType")
     test_profiles: list[TestProfile] | None = Field(None, alias="testProfiles")
-    job_template_xml: str | None = Field(None, alias="jobTemplateXml")
-    job_template_yaml: str | None = Field(None, alias="jobTemplateYaml")
