@@ -28,24 +28,39 @@ def test_validate_correct_pytest_tool() -> None:
 
     assert tool.supported_certified_images
     assert len(tool.supported_certified_images) == 4
-    assert tool.supported_certified_images[0] == 'python:3.9'
+    assert tool.supported_certified_images[0] == "python:3.9"
 
     assert tool.test_catalog == "unit"
     assert tool.test_domains == ["windows", "macos", "server"]
 
+
 def test_validate_loose() -> None:
-    _parse_testtool(Path(__file__).parent / "testdata" / "error_meta_files" / "error_yaml_with_loose.yaml", strict=False)
+    _parse_testtool(
+        Path(__file__).parent
+        / "testdata"
+        / "error_meta_files"
+        / "error_yaml_with_loose.yaml",
+        strict=False,
+    )
 
 
 def test_validate_strict_with_errors() -> None:
     with pytest.raises(ValidationError) as ve:
-        _parse_testtool(Path(__file__).parent / "testdata" / "error_meta_files" / "error_yaml_with_strict.yaml", strict=True)
+        _parse_testtool(
+            Path(__file__).parent
+            / "testdata"
+            / "error_meta_files"
+            / "error_yaml_with_strict.yaml",
+            strict=True,
+        )
 
     print(ve.value)
 
     assert r"String should match pattern '^[a-zA-Z-0-9_]+$'" in str(ve.value)
     assert r"Input should be 'COMPILED' or 'INTERPRETED'" in str(ve.value)
-    assert r"Input should be 'python', 'golang', 'javascript', 'java' or 'cpp'" in str(ve.value)
+    assert r"Input should be 'python', 'golang', 'javascript', 'java' or 'cpp'" in str(
+        ve.value
+    )
     assert r"String should match pattern '^(\d+\.\d+\.\d+|stable)$'" in str(ve.value)
     assert r"Input should be 'linux', 'windows', 'darwin' or 'android'" in str(ve.value)
     assert r"Input should be 'amd64' or 'arm64'" in str(ve.value)
@@ -53,7 +68,13 @@ def test_validate_strict_with_errors() -> None:
 
 def test_validate_strict_with_no_os() -> None:
     with pytest.raises(ValidationError) as ve:
-        _parse_testtool(Path(__file__).parent / "testdata" / "error_meta_files" / "error_yaml_with_strict_no_os.yaml", strict=True)
+        _parse_testtool(
+            Path(__file__).parent
+            / "testdata"
+            / "error_meta_files"
+            / "error_yaml_with_strict_no_os.yaml",
+            strict=True,
+        )
 
     print(ve.value)
     assert r"Value error, supportOS must be set" in str(ve.value)
@@ -61,14 +82,22 @@ def test_validate_strict_with_no_os() -> None:
 
 def test_validate_strict_with_no_arch() -> None:
     with pytest.raises(ValidationError) as ve:
-        _parse_testtool(Path(__file__).parent / "testdata" / "error_meta_files" / "error_yaml_with_strict_no_arch.yaml", strict=True)
+        _parse_testtool(
+            Path(__file__).parent
+            / "testdata"
+            / "error_meta_files"
+            / "error_yaml_with_strict_no_arch.yaml",
+            strict=True,
+        )
 
     print(ve.value)
     assert r" Value error, need at least 1 support arch" in str(ve.value)
 
 
 def test_parse_legacy_tool() -> None:
-    tool = _parse_testtool(Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml", strict=True)
+    tool = _parse_testtool(
+        Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml", strict=True
+    )
 
     assert tool.name == "qt4s_pot-line"
     assert not tool.git_pkg_url
