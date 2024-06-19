@@ -96,9 +96,9 @@ class ArchType(str, Enum):
 
 
 class TestCatalog(str, Enum):
-    UnitTest = "unit"
-    ServerAPITest = "server-api"
-    UITest = "ui"
+    UnitTest = "unit"  # 单元测试
+    ServerAPITest = "server-api"  # 服务端测试
+    UITest = "ui"  # UI测试
 
 
 class TestDomain(str, Enum):
@@ -285,8 +285,8 @@ entry中需要定义2个入口：
         """,
     )
 
-    test_catalog: TestCatalog | None = Field(
-        None,
+    test_catalog: TestCatalog = Field(
+        TestCatalog.UnitTest,
         alias="testCatalog",
         title="测试分类",
         description="""
@@ -316,8 +316,6 @@ entry中需要定义2个入口：
         if context and context.get("strict"):
             if not self.support_os:
                 raise ValueError("supportOS must be set")
-            if not self.test_catalog:
-                raise ValueError("testCatalog must be set")
             if not len(self.support_os) > 0:
                 raise ValueError("need at least 1 support OS")
 
