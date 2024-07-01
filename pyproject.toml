@@ -1,6 +1,6 @@
 [project]
 name = "solar-registry"
-version = "0.3.17"
+version = "0.3.18"
 description = "Generate and merge meta data for testsolar test tools"
 authors = [
     { name = "asiazhang", email = "asiazhang2002@gmail.com" },
