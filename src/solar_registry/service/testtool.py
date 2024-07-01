@@ -10,7 +10,12 @@ from ..model.test_tool import TestTool
 def get_testtool(tool_name: str, workdir: str | None) -> TestTool:
     logger.debug(f"querying testtool for {tool_name}")
     workdir = workdir or os.getcwd()
-    return _parse_testtool(Path(workdir) / tool_name / "testtool.yaml", strict=True)
+    return get_testtool_by_file_path(Path(workdir) / tool_name / "testtool.yaml")
+
+
+def get_testtool_by_file_path(file_path: Path) -> TestTool:
+    logger.debug(f"querying testtool for {file_path}")
+    return _parse_testtool(file_path, strict=True)
 
 
 def _parse_testtool(yaml_file: Path, strict: bool) -> TestTool:
