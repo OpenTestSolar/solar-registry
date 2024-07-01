@@ -123,6 +123,7 @@ class TestTool(BaseModel):
         title="工具名称",
         description="允许英文字母+数字+`-`",
     )
+    name_zh: str = Field("", alias="nameZh", title="工具中文名称")
     legacy_name: str = Field(
         "",
         alias="legacyName",
@@ -252,7 +253,16 @@ entry中需要定义2个入口：
 - Http方式无需Git认证，下载成功率更高
     """,
     )
-    name_zh: str = Field("", alias="nameZh", title="工具中文名称")
+
+    http_pkg_url: str = Field(
+        "",
+        alias="httpPkgUrl",
+        title="Http方式使用地址",
+        description="""
+指定测试工具在Http模式下的使用地址。        
+        """,
+    )
+
     legacy_spec: LegacySpec | None = Field(
         None,
         alias="legacySpec",
@@ -327,6 +337,8 @@ entry中需要定义2个入口：
             if not self.legacy_spec:
                 if not self.git_pkg_url:
                     raise ValueError("gitPkgUrl must be set")
+                if not self.http_pkg_url:
+                    raise ValueError("httpPkgUrl must be set")
                 if not self.version_file:
                     raise ValueError("versionFile must be set")
                 if not self.index_file:

@@ -25,9 +25,7 @@ class ToolValidator:
         logger.info(f"Validating stable index file [{stable_index_file}]")
 
         with open(stable_index_file) as f:
-            sim = StableIndexMetaData.model_validate_json(
-                f.read(), context={"strict": True}
-            )
+            sim = StableIndexMetaData.model_validate_json(f.read())
 
             logger.info(f"✅ Validated stable index file [{stable_index_file}] OK.")
             logger.info(f"✅ It has {len(sim.tools)} tools.")

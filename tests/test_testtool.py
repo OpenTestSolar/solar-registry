@@ -3,7 +3,11 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from solar_registry.service.testtool import get_testtool, _parse_testtool, get_testtool_by_file_path
+from solar_registry.service.testtool import (
+    get_testtool,
+    _parse_testtool,
+    get_testtool_by_file_path,
+)
 from solar_registry.model.test_tool import OsType, ArchType, ParamWidget
 
 
@@ -130,5 +134,7 @@ def test_parse_legacy_tool() -> None:
 
 
 def test_get_testtool_by_file_path() -> None:
-    tool = get_testtool_by_file_path(Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml")
+    tool = get_testtool_by_file_path(
+        Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml"
+    )
     assert tool.name == "qt4s_pot-line"
