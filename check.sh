@@ -2,6 +2,8 @@
 
 set -exu -o pipefail
 
+pdm run ruff format src
+pdm run ruff format tests
 pdm run ruff check src
 pdm run ruff check tests
 pdm run mypy src --strict
