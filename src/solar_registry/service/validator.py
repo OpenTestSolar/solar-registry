@@ -1,12 +1,14 @@
 import os
 from pathlib import Path
+from typing import Optional
+
 from loguru import logger
 
 from ..model.test_tool import StableIndexMetaData, MetaDataHistory
 
 
 class ToolValidator:
-    def __init__(self, workdir: str | None) -> None:
+    def __init__(self, workdir: Optional[str]) -> None:
         if workdir:
             self.workdir = Path(workdir)
         else:

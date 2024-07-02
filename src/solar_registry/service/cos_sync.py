@@ -3,7 +3,7 @@ import os
 import tarfile
 import tempfile
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Optional
 
 from loguru import logger
 from qcloud_cos import CosS3Client, CosConfig  # type: ignore[import-untyped]
@@ -15,8 +15,8 @@ from ..model.test_tool import TestTool
 class CosSyncService:
     def __init__(
         self,
-        workdir: str | None = None,
-        endpoint_gen: Callable[[str], str] | None = None,
+        workdir: Optional[str] = None,
+        endpoint_gen: Optional[Callable[[str], str]] = None,
     ) -> None:
         self.workdir = workdir or os.getcwd()
         if "COS_SECRET_ID" not in os.environ:

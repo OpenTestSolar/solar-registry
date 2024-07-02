@@ -1,6 +1,6 @@
 [project]
 name = "solar-registry"
-version = "0.3.20"
+version = "0.3.21"
 description = "Generate and merge meta data for testsolar test tools"
 authors = [
     { name = "asiazhang", email = "asiazhang2002@gmail.com" },
@@ -14,7 +14,7 @@ dependencies = [
     "loguru>=0.7.2",
     "cos-python-sdk-v5>=1.9.28",
 ]
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 readme = "README.md"
 license = { text = "MIT" }
 
@@ -24,6 +24,8 @@ classifiers = [
     'Intended Audience :: Developers',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.9',
+    'Programming Language :: Python :: 3.10',
     'Programming Language :: Python :: 3.11',
     'Programming Language :: Python :: 3.12',
 ]

@@ -5,9 +5,10 @@
 """
 
 from enum import Enum
-from typing import Literal, Self
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, ValidationInfo, model_validator
+from typing_extensions import Self
 
 from .legacy import LegacySpec
 
@@ -45,13 +46,13 @@ TESTSOLAR_TTP_大写名称
     desc: str = Field("", title="参数描述信息")
 
     default: str = Field("", title="参数默认值")
-    choices: list[ParamChoice] | None = Field(None, title="参数选项")
+    choices: Optional[list[ParamChoice]] = Field(None, title="参数选项")
 
     # 兼容历史工具
-    lang: str | None = Field(
+    lang: Optional[str] = Field(
         None, title="参数语言", description="用于前端UI显示，判断语法高亮类型"
     )
-    input_widget: ParamWidget | None = Field(
+    input_widget: Optional[ParamWidget] = Field(
         None,
         alias="inputWidget",
         title="输入控件类型",
@@ -167,7 +168,7 @@ class TestTool(BaseModel):
 用户也可以使用其他自定义镜像来满足自己的需求。
     """,
     )
-    supported_certified_images: list[str] | None = Field(
+    supported_certified_images: Optional[list[str]] = Field(
         None,
         alias="supportedCertifiedImages",
         title="经过认证的官方测试镜像列表",
@@ -187,7 +188,7 @@ class TestTool(BaseModel):
 - INTERPRETED: 解释型语言
     """,
     )
-    param_defs: list[ParamDef] | None = Field(None, alias="parameterDefs")
+    param_defs: Optional[list[ParamDef]] = Field(None, alias="parameterDefs")
     home_page: str = Field(alias="homePage", title="工具首页")
     version_file: str = Field(
         alias="versionFile",
@@ -217,11 +218,13 @@ class TestTool(BaseModel):
 TestSolar使用此信息来快速生成一个测试工具的用例库，用户可在此用例库的基础上继续开发。
     """,
     )
-    support_os: list[OsType] | None = Field(None, alias="supportOS", title="支持的系统")
-    support_arch: list[ArchType] | None = Field(
+    support_os: Optional[list[OsType]] = Field(
+        None, alias="supportOS", title="支持的系统"
+    )
+    support_arch: Optional[list[ArchType]] = Field(
         None, alias="supportArch", title="支持的CPU架构"
     )
-    entry: Entry | None = Field(
+    entry: Optional[Entry] = Field(
         None,
         alias="entry",
         title="测试工具交互入口文件",
@@ -241,7 +244,7 @@ entry中需要定义2个入口：
 具体使用方式请参考uniSDK的相关文档。
     """,
     )
-    git_pkg_url: str | None = Field(
+    git_pkg_url: Optional[str] = Field(
         None,
         alias="gitPkgUrl",
         title="Git方式使用地址",
@@ -254,7 +257,7 @@ entry中需要定义2个入口：
     """,
     )
 
-    http_pkg_url: str | None = Field(
+    http_pkg_url: Optional[str] = Field(
         None,
         alias="httpPkgUrl",
         title="Http方式使用地址",
@@ -263,7 +266,7 @@ entry中需要定义2个入口：
         """,
     )
 
-    legacy_spec: LegacySpec | None = Field(
+    legacy_spec: Optional[LegacySpec] = Field(
         None,
         alias="legacySpec",
         title="遗留工具规范",
@@ -284,7 +287,7 @@ entry中需要定义2个入口：
         """,
     )
 
-    archived: bool | None = Field(
+    archived: Optional[bool] = Field(
         None,
         alias="archived",
         title="是否已经归档",
@@ -304,7 +307,7 @@ entry中需要定义2个入口：
         """,
     )
 
-    test_domains: list[TestDomain] | None = Field(
+    test_domains: Optional[list[TestDomain]] = Field(
         None,
         alias="testDomains",
         title="测试领域",
