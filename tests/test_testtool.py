@@ -20,7 +20,10 @@ def test_validate_correct_pytest_tool() -> None:
     assert tool.version == "0.1.6"
     assert tool.name_zh == "pytest自动化测试"
     assert tool.git_pkg_url == "github.com/OpenTestSolar/testtool-python@main:pytest"
-    assert tool.http_pkg_url == "https://opentestsolar.github.io/testtool-registry/testtools/python/pytest/metadata.json@stable"
+    assert (
+        tool.http_pkg_url
+        == "https://opentestsolar.github.io/testtool-registry/testtools/python/pytest/metadata.json@stable"
+    )
 
     assert tool.support_os
     assert tool.support_os[0] == OsType.Windows

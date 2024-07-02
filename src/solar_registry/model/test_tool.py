@@ -241,8 +241,8 @@ entry中需要定义2个入口：
 具体使用方式请参考uniSDK的相关文档。
     """,
     )
-    git_pkg_url: str = Field(
-        "",
+    git_pkg_url: str | None = Field(
+        None,
         alias="gitPkgUrl",
         title="Git方式使用地址",
         description="""
@@ -254,8 +254,8 @@ entry中需要定义2个入口：
     """,
     )
 
-    http_pkg_url: str = Field(
-        "",
+    http_pkg_url: str | None = Field(
+        None,
         alias="httpPkgUrl",
         title="Http方式使用地址",
         description="""
@@ -284,8 +284,8 @@ entry中需要定义2个入口：
         """,
     )
 
-    archived: bool = Field(
-        False,
+    archived: bool | None = Field(
+        None,
         alias="archived",
         title="是否已经归档",
         description="""
