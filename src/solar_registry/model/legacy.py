@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Literal
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -16,7 +16,7 @@ class ResourceType(str, Enum):
 
 
 class MetaExtraField(BaseModel):
-    cli: str | None = None
+    cli: Optional[str] = None
 
 
 class ResourceDefaultConfig(BaseModel):
@@ -35,10 +35,10 @@ class PropertySpec(BaseModel):
     widget: str
     description: str
     name: str
-    default: str | None = None
+    default: Optional[str] = None
     display_name: str = Field(alias="displayName")
     type: str
-    choices: dict[str, str] | None = None
+    choices: Optional[dict[str, str]] = None
 
 
 class TestProfile(BaseModel):
@@ -49,8 +49,8 @@ class TestProfile(BaseModel):
         alias="resourceDefaultConfigs"
     )
     property_specs: list[PropertySpec] = Field(alias="propertySpecs")
-    job_template_xml: str | None = Field(None, alias="jobTemplateXml")
-    job_template_yaml: str | None = Field(None, alias="jobTemplateYaml")
+    job_template_xml: Optional[str] = Field(None, alias="jobTemplateXml")
+    job_template_yaml: Optional[str] = Field(None, alias="jobTemplateYaml")
 
 
 class LegacySpec(BaseModel):
@@ -69,4 +69,4 @@ class LegacySpec(BaseModel):
     enable_code_coverage: bool = Field(alias="enableCodeCoverage")
     maintainers: list[str] = Field(alias="maintainers")
     test_type: TestType = Field(TestType.AutoTest, alias="testType")
-    test_profiles: list[TestProfile] | None = Field(None, alias="testProfiles")
+    test_profiles: Optional[list[TestProfile]] = Field(None, alias="testProfiles")

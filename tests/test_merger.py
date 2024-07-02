@@ -1,6 +1,6 @@
 import tempfile
 from pathlib import Path
-from typing import Callable
+from typing import Callable, Optional
 
 from solar_registry.commands.meta_merger import MetaMerger
 from solar_registry.model.test_tool import MetaDataHistory, TestToolMetadata
@@ -37,5 +37,5 @@ def test_merge_meta_file() -> None:
 
 def find_if(
     lst: list[TestToolMetadata], predicate: Callable[[TestToolMetadata], bool]
-) -> TestToolMetadata | None:
+) -> Optional[TestToolMetadata]:
     return next((x for x in lst if predicate(x)), None)

@@ -1,11 +1,12 @@
 from pathlib import Path
-from loguru import logger
+from typing import Union
 import requests
+from loguru import logger
 from retry import retry
 
 
 @retry(tries=5, delay=1, backoff=2)
-def download_file_to(url: str, to_file: str | Path) -> None:
+def download_file_to(url: str, to_file: Union[str, Path]) -> None:
     logger.info(f"Downloading {url} to {to_file}")
     response = requests.get(url, stream=True)
     response.raise_for_status()

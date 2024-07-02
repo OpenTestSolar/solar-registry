@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+from typing import Optional
 
 import yaml
 from loguru import logger
@@ -7,7 +8,7 @@ from loguru import logger
 from ..model.test_tool import TestTool
 
 
-def get_testtool(tool_name: str, workdir: str | None) -> TestTool:
+def get_testtool(tool_name: str, workdir: Optional[str]) -> TestTool:
     logger.debug(f"querying testtool for {tool_name}")
     workdir = workdir or os.getcwd()
     return get_testtool_by_file_path(Path(workdir) / tool_name / "testtool.yaml")
