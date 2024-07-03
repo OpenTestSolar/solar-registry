@@ -2,13 +2,15 @@ from pathlib import Path
 
 import pytest
 from pydantic import ValidationError
+from rich import print
 
+from solar_registry.model.test_tool import OsType, ArchType, ParamWidget, TestTool
 from solar_registry.service.testtool import (
     get_testtool,
     _parse_testtool,
     get_testtool_by_file_path,
+    sort_test_tools,
 )
-from solar_registry.model.test_tool import OsType, ArchType, ParamWidget
 
 
 def test_validate_correct_pytest_tool() -> None:
@@ -142,3 +144,64 @@ def test_get_testtool_by_file_path() -> None:
         Path(__file__).parent / "testdata" / "legacy" / "testtool.yaml"
     )
     assert tool.name == "qt4s_pot-line"
+
+
+def test_sort_testtools_by_priority() -> None:
+    tools = [
+        TestTool(
+            schemaVersion=1,
+            name="a",
+            defaultBaseImage="a",
+            description="测试数据测试数据测试数据",
+            homePage="a",
+            indexFile="a",
+            lang="python",
+            langType="INTERPRETED",
+            version="0.1.1",
+            versionFile="a",
+            priority=1,
+        ),
+        TestTool(
+            schemaVersion=1,
+            name="b",
+            defaultBaseImage="a",
+            description="测试数据测试数据测试数据",
+            homePage="a",
+            indexFile="a",
+            lang="python",
+            langType="INTERPRETED",
+            version="0.1.1",
+            versionFile="a",
+            priority=200,
+        ),
+        TestTool(
+            schemaVersion=1,
+            name="c",
+            defaultBaseImage="a",
+            description="测试数据测试数据测试数据",
+            homePage="a",
+            indexFile="a",
+            lang="python",
+            langType="INTERPRETED",
+            version="0.1.1",
+            versionFile="a",
+        ),
+        TestTool(
+            schemaVersion=1,
+            name="d",
+            defaultBaseImage="a",
+            description="测试数据测试数据测试数据",
+            homePage="a",
+            indexFile="a",
+            lang="python",
+            langType="INTERPRETED",
+            version="0.1.1",
+            versionFile="a",
+        ),
+    ]
+
+    sorted_tools = sort_test_tools(tools)
+    assert sorted_tools[0].name == "b"
+    assert sorted_tools[1].name == "a"
+    assert sorted_tools[2].name == "c"
+    assert sorted_tools[3].name == "d"

@@ -1,7 +1,7 @@
 import tempfile
 from pathlib import Path
-
 from typing import Callable
+
 from loguru import logger
 from requests import HTTPError
 
@@ -12,6 +12,7 @@ from ..model.test_tool import (
     TestToolMetadata,
 )
 from ..service.generator import Generator
+from ..service.testtool import sort_test_tools
 from ..util.file import download_file_to
 
 
@@ -108,6 +109,7 @@ class MetaMerger:
             stable_result = StableIndexMetaData.model_validate_json(f.read())
 
             stable_result.merge_stable_index([self.testtool])
+            stable_result.tools = sort_test_tools(stable_result.tools)
 
             logger.info(
                 f"Merge stable index: {stable_result.model_dump_json(by_alias=True, indent=2, exclude_none=True)}"

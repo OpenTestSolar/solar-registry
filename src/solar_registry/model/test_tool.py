@@ -318,6 +318,16 @@ entry中需要定义2个入口：
     """,
     )
 
+    priority: Optional[int] = Field(
+        None,
+        title="测试工具优先级定义",
+        description="""
+用于前端展示。
+
+优先级越高，显示越靠前。
+    """,
+    )
+
     @model_validator(mode="after")
     def check_valid(self, info: ValidationInfo) -> Self:
         """
