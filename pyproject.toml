@@ -1,6 +1,6 @@
 [project]
 name = "solar-registry"
-version = "0.3.22"
+version = "0.3.23"
 description = "Generate and merge meta data for testsolar test tools"
 authors = [
     { name = "asiazhang", email = "asiazhang2002@gmail.com" },
@@ -12,7 +12,7 @@ dependencies = [
     "pyyaml>=6.0.1",
     "retry>=0.9.2",
     "loguru>=0.7.2",
-    "cos-python-sdk-v5>=1.9.28",
+    "cos-python-sdk-v5>=1.9.30",
 ]
 requires-python = ">=3.9"
 readme = "README.md"

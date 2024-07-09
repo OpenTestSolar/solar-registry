@@ -244,6 +244,16 @@ entry中需要定义2个入口：
 具体使用方式请参考uniSDK的相关文档。
     """,
     )
+
+    repository: Optional[str] = Field(
+        None,
+        alias="repository",
+        title="测试工具源码仓库地址",
+        description="""
+测试工具的源代码仓库地址。        
+        """
+    )
+
     git_pkg_url: Optional[str] = Field(
         None,
         alias="gitPkgUrl",
@@ -358,6 +368,8 @@ entry中需要定义2个入口：
                     raise ValueError("indexFile must be set")
                 if not self.scaffold_repo:
                     raise ValueError("scaffoldRepo must be set")
+                if not self.repository:
+                    raise ValueError("repository must be set")
             else:
                 if not self.legacy_name:
                     raise ValueError("legacyName must be set")
