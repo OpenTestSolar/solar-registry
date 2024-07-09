@@ -94,6 +94,7 @@ supportOS:
 supportArch:
   - amd64
   - arm64
+repository: https://github.com/OpenTestSolar/testtool-python-pytest
 gitPkgUrl: github.com/OpenTestSolar/testtool-python@main:pytest
 httpPkgUrl: https://opentestsolar.github.io/testtool-registry/testtools/python/pytest/metadata.json@stable
 testCatalog: unit
