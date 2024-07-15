@@ -15,7 +15,17 @@ from .legacy import LegacySpec
 
 class ParamChoice(BaseModel):
     value: str = Field(title="选项值")
+    display_name: str = Field("", alias="displayName", title="UI显示名称")
     desc: str = Field(title="选项描述")
+
+    @model_validator(mode="after")
+    def check_valid(self, info: ValidationInfo) -> Self:
+        context = info.context
+        if context and context.get("strict"):
+            if not self.display_name:
+                raise ValueError("ParamChoice displayName must be set")
+
+        return self
 
 
 class ParamWidget(str, Enum):
@@ -251,7 +261,7 @@ entry中需要定义2个入口：
         title="测试工具源码仓库地址",
         description="""
 测试工具的源代码仓库地址。        
-        """
+        """,
     )
 
     git_pkg_url: Optional[str] = Field(
