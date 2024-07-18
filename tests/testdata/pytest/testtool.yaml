@@ -17,6 +17,7 @@ versionFile: https://opentestsolar.github.io/testtool-registry/testtools/python/
 homePage: https://github.com/OpenTestSolar/testtool-python-pytest
 parameterDefs: # 用户 use 这个测试工具时可以配置的 with 参数
   - name: parseMode
+    qtaName: parse_mode
     value: 加载用例的模式
     desc: 加载用例的模式
     default: auto

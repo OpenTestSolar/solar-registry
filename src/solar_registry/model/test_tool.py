@@ -62,6 +62,12 @@ TESTSOLAR_TTP_大写名称
     lang: Optional[str] = Field(
         None, title="参数语言", description="用于前端UI显示，判断语法高亮类型"
     )
+    qta_name: Optional[str] = Field(
+        None,
+        alias="qtaName",
+        title="qta属性名称",
+        description="用于兼容相同含义QTA属性名称",
+    )
     input_widget: Optional[ParamWidget] = Field(
         None,
         alias="inputWidget",
