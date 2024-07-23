@@ -33,7 +33,10 @@ def _parse_testtool(yaml_file: Path, strict: bool) -> TestTool:
 
 
 def github_asset_gen(testtool: TestTool) -> str:
-    return f"https://github.com/OpenTestSolar/testtool-{testtool.lang}-{testtool.name}/archive/refs/tags/{testtool.version}.tar.gz"
+    if not testtool.repository:
+        raise ValueError(f"repository is required in testtool: {testtool.model_dump()}")
+    repo = testtool.repository.rstrip("/")
+    return f"{repo}/archive/refs/tags/{testtool.version}.tar.gz"
 
 
 def sort_test_tools(tools: List[TestTool]) -> List[TestTool]:
