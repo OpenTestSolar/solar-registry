@@ -33,7 +33,9 @@ def _parse_testtool(yaml_file: Path, strict: bool) -> TestTool:
 
 
 def github_asset_gen(testtool: TestTool) -> str:
-    repo = testtool.repository.rstrip('/')
+    if not testtool.repository:
+        raise ValueError(f"repository is required in testtool: {testtool.model_dump()}")
+    repo = testtool.repository.rstrip("/")
     return f"{repo}/archive/refs/tags/{testtool.version}.tar.gz"
 
 
