@@ -33,6 +33,8 @@ def test_validate_correct_pytest_tool() -> None:
     assert tool.param_defs[0].choices[0].display_name == "自动解析模式"
     assert tool.param_defs[0].qta_name == "parse_mode"
 
+    assert tool.param_defs[3].input_widget == ParamWidget.Switch
+
     assert tool.support_os
     assert tool.support_os[0] == OsType.Windows
     assert tool.support_os[1] == OsType.Linux

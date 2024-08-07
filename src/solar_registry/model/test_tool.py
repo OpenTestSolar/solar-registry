@@ -34,6 +34,7 @@ class ParamWidget(str, Enum):
     Number = "number"
     Choices = "choices"
     TextArea = "text-area"
+    Switch = "switch"
 
 
 class ParamDef(BaseModel):
