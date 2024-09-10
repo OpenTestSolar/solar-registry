@@ -105,8 +105,13 @@ class MetaMerger:
 
     def _merge_stable_index(self, stable_index: Path) -> StableIndexMetaData:
         logger.info(f"Merging {stable_index.name}")
+
+        logger.info(f"Stable index file size: {stable_index.stat().st_size} bytes")
+
         with open(stable_index, "r") as f:
             stable_result = StableIndexMetaData.model_validate_json(f.read())
+
+            logger.info(f"Stable index tool count: {len(stable_result.tools)}")
 
             stable_result.merge_stable_index([self.testtool])
             stable_result.tools = sort_test_tools(stable_result.tools)
