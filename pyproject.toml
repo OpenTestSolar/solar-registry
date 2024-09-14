@@ -20,7 +20,7 @@ license = { text = "MIT" }
 
 urls = { repository = "https://github.com/OpenTestSolar/solar-registry" }
 classifiers = [
-    'Development Status :: 4 - Stable',
+    'Development Status :: 5 - Production/Stable',
     'Intended Audience :: Developers',
     'Programming Language :: Python',
     'Programming Language :: Python :: 3',
