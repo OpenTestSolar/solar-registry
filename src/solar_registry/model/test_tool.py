@@ -35,6 +35,7 @@ class ParamWidget(str, Enum):
     Choices = "choices"
     TextArea = "text-area"
     Switch = "switch"
+    Password = "password"
 
 
 class ParamDef(BaseModel):
@@ -81,6 +82,7 @@ TESTSOLAR_TTP_大写名称
     - text: 文本类型控件，不支持语法高亮
     - number: 数字类型
     - choices: 选项类型
+    - password: 密钥类型
     """,
     )
 
